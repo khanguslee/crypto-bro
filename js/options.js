@@ -13,6 +13,7 @@ function getAllCoins() {
         {
             console.log(data[i]);
             let newCoinEntry = document.createElement('li');
+            newCoinEntry.id = "coin-entry";
             newCoinEntry.appendChild(document.createTextNode(data[i].name));
             coinList.appendChild(newCoinEntry);                    
         }

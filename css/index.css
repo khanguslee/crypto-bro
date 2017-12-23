@@ -1,3 +1,13 @@
 body {
-    max-width: 700px;
+    min-width: 300px;
+    height: 100%;
+}
+
+body #crypto-entry {
+    border-bottom: 1px solid #E6E6E6;
+    padding: 3px;
+} 
+
+body #crypto-entry:hover {
+    background: #F2F2F2;
 }

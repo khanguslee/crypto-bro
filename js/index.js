@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
 
+
+
 function getBitcoinPrice()
 {
     fetch(cmcBaseUrl + '/ticker/bitcoin/')

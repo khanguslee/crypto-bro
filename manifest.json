@@ -3,11 +3,18 @@
     "name" : "Crypto Bro",
     "description" : "Your bro for Crypto",
     "version" : "0.1",
+    "permissions": [
+        "storage"
+    ],
     "browser_action" : {
-        "default_popup" : "index.html",
+        "default_popup" : "html/index.html",
         "default_title" : "Crypto Bro"
     },
     "background" : {
         "scripts" : ["js/index.js"]
+    },
+    "options_ui": {
+        "page": "html/options.html",
+        "chrome_style": true
     }
 }

@@ -18,10 +18,15 @@ function getAllCoins() {
             let checkbox = document.createElement('input');
             checkbox.type = "checkbox";
             checkbox.id = "cb-" + data[i].name;
+            checkbox.addEventListener('click', updateList);
             newCoinEntry.appendChild(checkbox);
 
             newCoinEntry.appendChild(document.createTextNode(data[i].name));
             coinList.appendChild(newCoinEntry);                    
         }
     })
+}
+
+function updateList() {
+    console.log(this.id);
 }

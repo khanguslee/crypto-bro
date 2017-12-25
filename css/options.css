@@ -8,5 +8,14 @@ body {
 }
 
 #coin-option-container #coin-entry {
-    margin: 10px;
+    margin: 5px;
+    padding: 8px;
+}
+
+#coin-option-container #coin-entry:hover {
+    background: #F2F2F2;
+}
+
+#coin-option-container #coin-entry input{
+    margin-right: 5px;
 }

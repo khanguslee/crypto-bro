@@ -1,13 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     displayAllCoins();
-    syncList();
 });
 
 const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
 
-function syncList() {
+function syncCheckboxes() {
+    let checkboxes = document.querySelectorAll('ul input');
     chrome.storage.sync.get('coins', (result) => {
-        console.log(result);
+        coinList = result["coins"];
+        for (var key in coinList) {
+            let isChecked = coinList[key];
+            document.getElementById("cb-" + key).checked = isChecked;
+        }
     })
 }
 
@@ -31,10 +35,14 @@ function displayAllCoins() {
             newCoinEntry.appendChild(document.createTextNode(data[i].name));
             coinList.appendChild(newCoinEntry);                    
         }
+        syncCheckboxes();
     })
 }
 
 function updateList() {
+    /*
+        Updates the options stored on the chrome storage.
+    */
     let coinName = this.id.substr(3);
 
     var coinList;

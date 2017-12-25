@@ -6,7 +6,7 @@ const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
 
 function syncCheckboxes() {
     let checkboxes = document.querySelectorAll('ul input');
-    chrome.storage.sync.get('coins', (result) => {
+    chrome.storage.sync.get({'coins': {}}, (result) => {
         coinList = result["coins"];
         for (var key in coinList) {
             let isChecked = coinList[key];
@@ -46,7 +46,7 @@ function updateList() {
     let coinName = this.id.substr(3);
 
     var coinList;
-    chrome.storage.sync.get('coins', (result) => {
+    chrome.storage.sync.get({'coins': {}}, (result) => {
         coinList = result["coins"];
         coinList[coinName] = this.checked ? true : false;
         chrome.storage.sync.set({

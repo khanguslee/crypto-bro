@@ -14,6 +14,12 @@ function getAllCoins() {
             console.log(data[i]);
             let newCoinEntry = document.createElement('li');
             newCoinEntry.id = "coin-entry";
+
+            let checkbox = document.createElement('input');
+            checkbox.type = "checkbox";
+            checkbox.id = "cb-" + data[i].name;
+            newCoinEntry.appendChild(checkbox);
+
             newCoinEntry.appendChild(document.createTextNode(data[i].name));
             coinList.appendChild(newCoinEntry);                    
         }

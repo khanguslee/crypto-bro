@@ -41,10 +41,12 @@ function changeCurrency(selectedCurrency) {
 function syncCheckboxes() {
     // Tick checkboxes that user has already set
     let checkboxes = document.querySelectorAll('ul input');
-    chrome.storage.sync.get({'coins': {}}, (result) => {
+    const defaultJsonValue = {'coins':{'bitcoin': {"display": true}}};
+    chrome.storage.sync.get(defaultJsonValue, (result) => {
+        console.log(result);
         var coinList = result["coins"];
         for (var key in coinList) {
-            let isChecked = coinList[key];
+            let isChecked = coinList[key]['display'];
             document.getElementById("cb-" + key).checked = isChecked;
         }
     })
@@ -79,11 +81,13 @@ function updateList() {
         Updates the options stored on the chrome storage.
     */
     let coinName = this.id.substr(3);
-
     var coinList;
-    chrome.storage.sync.get({'coins': {}}, (result) => {
+    const defaultJsonValue = {'coins':{'bitcoin': {"display": true}}};
+
+    chrome.storage.sync.get(defaultJsonValue, (result) => {
         coinList = result["coins"];
-        coinList[coinName] = this.checked ? true : false;
+        coinList[coinName] = {};
+        coinList[coinName]['display'] = this.checked ? true : false;
         chrome.storage.sync.set({
             'coins' : coinList
         }, () => {

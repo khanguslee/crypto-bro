@@ -4,17 +4,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
 
+function changeUserAmount(value) {
+    console.log(value);
+}
+
 function initialiseApp() {
-    chrome.storage.sync.get({'coins':{'bitcoin': true}}, (result) => {
+    const defaultJsonValue = {'coins':{'bitcoin': {"display": true}}};
+    chrome.storage.sync.get(defaultJsonValue, (result) => {
         var coinList = result['coins'];
         var cryptoDiv = document.getElementById('crypto-container');
+        cryptoDiv.addEventListener("click", changeUserAmount);
 
         // Get currency to display
         chrome.storage.sync.get({"currency": "USD"}, (result) => {
             var selectedCurrency = result["currency"];
             for (var key in coinList) {
                 // Check if user has selected the coin
-                if (!coinList[key]) {
+                if (!coinList[key]["display"]) {
                     continue;
                 }
 
@@ -34,7 +40,7 @@ function initialiseApp() {
     
                     // Add in name paragraph
                     let coinNameElement = document.createElement('p');
-                    let coinNameValue = document.createTextNode("Name: " + data[0].name);
+                    let coinNameValue = document.createTextNode(data[0].name + ' ' + data[0].symbol);
                     coinNameElement.appendChild(coinNameValue);
                     coinEntry.appendChild(coinNameElement);
     

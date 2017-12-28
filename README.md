@@ -10,7 +10,8 @@ To load the application, type in `chrome://extensions/` into the browser and che
 - [x] Display Bitcoin price
 - [ ] Display Bitcoin 24 Hour change
 - [x] Load prices upon opening extension (No button needed)
-- [ ] Option to show/hide other cryptocurrencys
+- [x] Option to show/hide other cryptocurrencys
 - [ ] Input the amount of cryptocurrencys you own
 - [ ] Alert system
-- [ ] Currency conversion
+- [x] Currency conversion
+- [ ] Add green/red arrows to show if the coin increased/decreased in value

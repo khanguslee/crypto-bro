@@ -16,6 +16,17 @@ body {
     background: #F2F2F2;
 }
 
-#coin-option-container #coin-entry input{
-    margin-right: 5px;
+#coin-entry p {
+    width: 20px;
+    display: inline
 }
+
+#coin-entry input {
+    margin-right: 10px;
+}
+
+#coin-entry .input-user-coin-amount{
+    margin-left: 10px;
+    display: none;
+}
+

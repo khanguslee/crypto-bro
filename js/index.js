@@ -4,16 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
 
-function changeUserAmount(value) {
-    console.log(value);
-}
-
 function initialiseApp() {
     const defaultJsonValue = {'coins':{'bitcoin': {"display": true}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
         var coinList = result['coins'];
         var cryptoDiv = document.getElementById('crypto-container');
-        cryptoDiv.addEventListener("click", changeUserAmount);
 
         // Get currency to display
         chrome.storage.sync.get({"currency": "USD"}, (result) => {
@@ -35,23 +30,45 @@ function initialiseApp() {
                 .then((response) => response.json())
                 .then((data) => {
                     // Create outer div to store the coin entry
-                    var coinEntry = document.createElement('div');
-                    coinEntry.setAttribute('id', 'crypto-entry');
-    
+                    let cryptoEntry = document.createElement('div');
+                    cryptoEntry.setAttribute('class', 'crypto-entry');
+                    cryptoEntry.setAttribute('id', data[0].id);
+
+                    // Create div that contains name and price of crypto entry
+                    let cryptoMain = document.createElement('div');
+                    cryptoMain.setAttribute('class', 'crypto-main');
+
                     // Add in name paragraph
                     let coinNameElement = document.createElement('p');
                     let coinNameValue = document.createTextNode(data[0].name + ' ' + data[0].symbol);
                     coinNameElement.appendChild(coinNameValue);
-                    coinEntry.appendChild(coinNameElement);
-    
+                    cryptoMain.appendChild(coinNameElement);
+                    cryptoEntry.appendChild(cryptoMain);
+
                     // Add in price paragraph
                     let coinPriceElement = document.createElement('p');
-                    coinPriceElement.setAttribute('id', 'crypto-price');
-                    let coinPriceValue = document.createTextNode('Price: '+ selectedCurrency + '$' + data[0]['price_' + selectedCurrency.toLowerCase()]);
+                    coinPriceElement.setAttribute('class', 'crypto-price');
+                    let coinPriceValue = document.createTextNode(selectedCurrency + '$' + data[0]['price_' + selectedCurrency.toLowerCase()]);
                     coinPriceElement.appendChild(coinPriceValue); 
-                    coinEntry.appendChild(coinPriceElement);
+                    cryptoMain.appendChild(coinPriceElement);
+                    cryptoEntry.appendChild(cryptoMain);
                     
-                    cryptoDiv.appendChild(coinEntry);
+                    // Add in amount that user holds
+                    let coinHoldingsElement = document.createElement('p');
+                    coinHoldingsElement.setAttribute('class', 'crypto-holdings');
+                    chrome.storage.sync.get(defaultJsonValue, (result) => {
+                        var coinHoldingsValue = data[0]['price_' + selectedCurrency.toLowerCase()];
+                        var coinList = result["coins"];
+                        if ('value' in coinList[data[0].id] & coinList[data[0].id] != 0) {
+                            var coinHoldingsAmount = coinList[data[0].id]['value'];
+                            coinHoldingsValue *= coinHoldingsAmount;
+                            let coinHoldingsValueText = document.createTextNode('Total: ' + selectedCurrency + '$' + coinHoldingsValue);
+                            coinHoldingsElement.appendChild(coinHoldingsValueText);
+                            cryptoEntry.appendChild(coinHoldingsElement);
+                        }
+
+                        cryptoDiv.appendChild(cryptoEntry);
+                    });
                 });  
             }
         })

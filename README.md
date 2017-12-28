@@ -15,3 +15,4 @@ To load the application, type in `chrome://extensions/` into the browser and che
 - [ ] Alert system
 - [x] Currency conversion
 - [ ] Add green/red arrows to show if the coin increased/decreased in value
+- [ ] Search bar in the options menu

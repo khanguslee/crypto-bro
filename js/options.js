@@ -40,16 +40,50 @@ function changeCurrency(selectedCurrency) {
 
 function syncCheckboxes() {
     // Tick checkboxes that user has already set
-    let checkboxes = document.querySelectorAll('ul input');
     const defaultJsonValue = {'coins':{'bitcoin': {"display": true}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
-        console.log(result);
         var coinList = result["coins"];
         for (var key in coinList) {
             let isChecked = coinList[key]['display'];
             document.getElementById("cb-" + key).checked = isChecked;
         }
     })
+}
+
+function syncTextboxes() {
+    // Set textboxes that user has already set
+    const defaultJsonValue = {'coins':{'bitcoin': {"value": 1}}};
+    chrome.storage.sync.get(defaultJsonValue, (result) => {
+        var coinList = result["coins"];
+        console.log(coinList);
+        for (var key in coinList) {
+            console.log(key);
+            let isChecked = coinList[key]['display'];
+            userValue = coinList[key]['value'];
+
+            let coinTextbox = document.getElementById('tb-' + key);
+            // Show/Hide textbox is checkbox checked/unchecked
+            coinTextbox.style.display = isChecked ? 'inline' : 'none';
+            coinTextbox.value = userValue;
+        }
+    })
+}
+
+function editUserCoinAmount(event) {
+    // Updates amount of coins user has of the chosen coin
+    var userInputCoinAmount = this.valueAsNumber
+    var coinName = this.id.substr(3);
+    var coinList;
+
+    const defaultJsonValue = {'coins':{'bitcoin': {"display": true}}};
+    chrome.storage.sync.get(defaultJsonValue, (result) => {
+        coinList = result["coins"];
+        coinList[coinName]['value'] = userInputCoinAmount;
+        console.log(coinList);
+        chrome.storage.sync.set({'coins': coinList}, () => {
+            console.log("Coin value saved!");
+        });
+    });
 }
 
 function displayAllCoins() {
@@ -63,16 +97,31 @@ function displayAllCoins() {
             let newCoinEntry = document.createElement('li');
             newCoinEntry.id = 'coin-entry';
 
+            // Add check box
             let checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.id = 'cb-' + data[i].id;
             checkbox.addEventListener('click', updateList);
             newCoinEntry.appendChild(checkbox);
 
-            newCoinEntry.appendChild(document.createTextNode(data[i].name));
+            // Add coin name text
+            let coinNameTextElement = document.createElement('p');
+            let coinNameText = document.createTextNode(data[i].name)
+            coinNameTextElement.appendChild(coinNameText);
+            newCoinEntry.appendChild(coinNameTextElement);
+
+            // Add input box
+            let inputUserCoinAmount = document.createElement('input');
+            inputUserCoinAmount.type = 'number';
+            inputUserCoinAmount.className = 'input-user-coin-amount';
+            inputUserCoinAmount.id = 'tb-' + data[i].id;
+            inputUserCoinAmount.addEventListener('input', editUserCoinAmount);
+            newCoinEntry.appendChild(inputUserCoinAmount);
+
             coinList.appendChild(newCoinEntry);                    
         }
         syncCheckboxes();
+        syncTextboxes();
     })
 }
 
@@ -84,10 +133,18 @@ function updateList() {
     var coinList;
     const defaultJsonValue = {'coins':{'bitcoin': {"display": true}}};
 
+    if (this.checked) {
+        document.getElementById('tb-' + coinName).style.display = 'inline';
+    }
+
     chrome.storage.sync.get(defaultJsonValue, (result) => {
         coinList = result["coins"];
-        coinList[coinName] = {};
+
+        if (!(coinName in coinList)) {
+            coinList[coinName] = {};
+        }
         coinList[coinName]['display'] = this.checked ? true : false;
+        console.log(coinList);
         chrome.storage.sync.set({
             'coins' : coinList
         }, () => {

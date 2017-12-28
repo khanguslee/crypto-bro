@@ -13,15 +13,15 @@ body #header p {
     margin: 0px;    
 }
 
-body #crypto-entry {
+body .crypto-entry {
     border-bottom: 1px solid #F2F2F2;
     padding: 3px;
 } 
 
-body #crypto-entry:hover {
+body .crypto-entry:hover {
     background: #F2F2F2;
 }
 
-body #crypto-price {
+body .crypto-price {
     color: #999999;
 }

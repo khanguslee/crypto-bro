@@ -7,20 +7,40 @@ const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
 
 function displayCurrencyOption() {
     // Displays list of valid currencies that can be displayed
-    const currencyList = ["AUD", "BRL", "CAD", "CHF", "CLP", "CNY", 
+    let selectCurrencyElement = document.getElementById("currency-option-list");
+    selectCurrencyElement.addEventListener("change", changeCurrency);
+    const currencyList = ["USD", "AUD", "BRL", "CAD", "CHF", "CLP", "CNY", 
                             "CZK", "DKK", "EUR", "GBP", "HKD", 
                             "HUF", "IDR", "ILS", "INR", "JPY", 
                             "KRW", "MXN", "MYR", "NOK", "NZD", 
                             "PHP", "PKR", "PLN", "RUB", "SEK", 
                             "SGD", "THB", "TRY", "TWD", "ZAR"];
+    // Display user selected currency
     var currencyOption = "";
-    for (index in currencyList) {
-        currencyOption += "<option>" + currencyList[index] + "</option>";
-    }
-    document.getElementById("currency-option-list").innerHTML = currencyOption;
+    chrome.storage.sync.get({"currency": "USD"}, (result) => {
+        console.log(result);
+        var defaultCurrency = result["currency"];
+        for (index in currencyList) {
+            if (currencyList[index] == defaultCurrency) {
+                currencyOption += "<option selected='selected'>" + currencyList[index] + "</option>";
+            } else {
+                currencyOption += "<option>" + currencyList[index] + "</option>";
+            }
+        }
+        selectCurrencyElement.innerHTML = currencyOption;
+        selectCurrencyElement.selectedIndex
+    })
+}
+
+function changeCurrency(selectedCurrency) {
+    // Change the selected displayed currency
+    chrome.storage.sync.set({"currency": selectedCurrency.target.value}, () => {
+        console.log("Currency set as " + selectedCurrency.target.value);
+    });
 }
 
 function syncCheckboxes() {
+    // Tick checkboxes that user has already set
     let checkboxes = document.querySelectorAll('ul input');
     chrome.storage.sync.get({'coins': {}}, (result) => {
         var coinList = result["coins"];
@@ -32,13 +52,13 @@ function syncCheckboxes() {
 }
 
 function displayAllCoins() {
+    // Display all available crypto currency coins available from coinmarketcap
     fetch(cmcBaseUrl + '/ticker/?limit=0')
     .then((response) => response.json())
     .then((data) => {
         let coinList = document.getElementById('coin-option-list')
         for (let i = 0; i< data.length; i++)
         {
-            //console.log(data[i]);
             let newCoinEntry = document.createElement('li');
             newCoinEntry.id = 'coin-entry';
 

@@ -1,8 +1,24 @@
 document.addEventListener('DOMContentLoaded', function() {
+    displayCurrencyOption();
     displayAllCoins();
 });
 
 const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
+
+function displayCurrencyOption() {
+    // Displays list of valid currencies that can be displayed
+    const currencyList = ["AUD", "BRL", "CAD", "CHF", "CLP", "CNY", 
+                            "CZK", "DKK", "EUR", "GBP", "HKD", 
+                            "HUF", "IDR", "ILS", "INR", "JPY", 
+                            "KRW", "MXN", "MYR", "NOK", "NZD", 
+                            "PHP", "PKR", "PLN", "RUB", "SEK", 
+                            "SGD", "THB", "TRY", "TWD", "ZAR"];
+    var currencyOption = "";
+    for (index in currencyList) {
+        currencyOption += "<option>" + currencyList[index] + "</option>";
+    }
+    document.getElementById("currency-option-list").innerHTML = currencyOption;
+}
 
 function syncCheckboxes() {
     let checkboxes = document.querySelectorAll('ul input');

@@ -18,7 +18,6 @@ function displayCurrencyOption() {
     // Display user selected currency
     var currencyOption = "";
     chrome.storage.sync.get({"currency": "USD"}, (result) => {
-        console.log(result);
         var defaultCurrency = result["currency"];
         for (index in currencyList) {
             if (currencyList[index] == defaultCurrency) {

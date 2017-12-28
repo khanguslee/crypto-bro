@@ -7,7 +7,7 @@ const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
 function syncCheckboxes() {
     let checkboxes = document.querySelectorAll('ul input');
     chrome.storage.sync.get({'coins': {}}, (result) => {
-        coinList = result["coins"];
+        var coinList = result["coins"];
         for (var key in coinList) {
             let isChecked = coinList[key];
             document.getElementById("cb-" + key).checked = isChecked;

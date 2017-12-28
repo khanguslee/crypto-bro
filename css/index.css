@@ -21,3 +21,7 @@ body #crypto-entry {
 body #crypto-entry:hover {
     background: #F2F2F2;
 }
+
+body #crypto-price {
+    color: #999999;
+}

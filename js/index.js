@@ -36,15 +36,15 @@ function initialiseApp() {
                     cryptoEntry.setAttribute('id', data[0].id);
 
                     // Create div that contains name and price of crypto entry
-                    let cryptoMain = document.createElement('div');
-                    cryptoMain.setAttribute('class', 'crypto-main');
+                    let cryptoMainDiv = document.createElement('div');
+                    cryptoMainDiv.setAttribute('class', 'crypto-main');
 
                     // Add in name paragraph
                     let coinNameElement = document.createElement('p');
                     let coinNameValue = document.createTextNode(data[0].name + ' ' + data[0].symbol);
                     coinNameElement.appendChild(coinNameValue);
-                    cryptoMain.appendChild(coinNameElement);
-                    cryptoEntry.appendChild(cryptoMain);
+                    cryptoMainDiv.appendChild(coinNameElement);
+                    cryptoEntry.appendChild(cryptoMainDiv);
 
                     // Add in price paragraph
                     let coinPriceElement = document.createElement('p');
@@ -52,9 +52,20 @@ function initialiseApp() {
                     let coinPrice = parseFloat(data[0]['price_' + selectedCurrency.toLowerCase()]).toPrecision(5);
                     let coinPriceValue = document.createTextNode(selectedCurrency + '$' + coinPrice);
                     coinPriceElement.appendChild(coinPriceValue); 
-                    cryptoMain.appendChild(coinPriceElement);
-                    cryptoEntry.appendChild(cryptoMain);
+                    cryptoMainDiv.appendChild(coinPriceElement);
+                    cryptoEntry.appendChild(cryptoMainDiv);
                     
+                    // Create secondary div to hold user holdings and change in %
+                    let cryptoSecondaryDiv = document.createElement('div');
+                    cryptoSecondaryDiv.setAttribute('class', 'crypto-secondary');
+                    
+                    // Add in coin percentage change
+                    let coinPercentageElement = document.createElement('p');
+                    let coinPercentage = data[0].percent_change_24h;
+                    let coinPercentageText = document.createTextNode(coinPercentage + "%");
+                    coinPercentageElement.appendChild(coinPercentageText);
+                    cryptoSecondaryDiv.appendChild(coinPercentageElement);
+
                     // Add in amount that user holds
                     let coinHoldingsElement = document.createElement('p');
                     coinHoldingsElement.setAttribute('class', 'crypto-holdings');
@@ -72,7 +83,7 @@ function initialiseApp() {
                             totalAmountHolding += coinHoldingsValue;
                             
                             coinHoldingsElement.appendChild(coinHoldingsValueText);
-                            cryptoEntry.appendChild(coinHoldingsElement);
+                            cryptoSecondaryDiv.appendChild(coinHoldingsElement);
                         }
 
                         // Show total amount that user is holding
@@ -81,6 +92,7 @@ function initialiseApp() {
                             document.getElementById("crypto-amount").style.display = 'block';
                             document.getElementById("crypto-amount-text").innerHTML = totalAmountHolding.toFixed(2);
                         }
+                        cryptoEntry.appendChild(cryptoSecondaryDiv);
 
                         cryptoDiv.appendChild(cryptoEntry);
                     });

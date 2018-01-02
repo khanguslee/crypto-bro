@@ -84,6 +84,9 @@ function initialiseApp() {
 
                         cryptoDiv.appendChild(cryptoEntry);
                     });
+                })
+                .catch((error) => {
+                    console.log(error);
                 });  
             }
         })

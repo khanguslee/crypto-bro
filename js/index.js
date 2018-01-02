@@ -13,7 +13,7 @@ function initialiseApp() {
         // Get currency to display
         chrome.storage.sync.get({"currency": "USD"}, (result) => {
             var selectedCurrency = result["currency"];
-            var totalAmountHolding = 0;
+            var totalAmountHolding = 0, totalPrevAmountHolding = 0;;
             for (var key in coinList) {
                 // Check if user has selected the coin
                 if (!coinList[key]["display"]) {
@@ -64,6 +64,7 @@ function initialiseApp() {
                     let coinPercentageElement = document.createElement('p');
                     coinPercentageElement.setAttribute('class', 'crypto-percentage');
                     let coinPercentage = data[0].percent_change_24h;
+
                     coinPercentageElement.style.color = coinPercentage[0] === "-" ? "#e60000" : "#00e600"
                     let coinPercentageText = document.createTextNode(coinPercentage + "%");
                     coinPercentageElement.appendChild(coinPercentageText);
@@ -85,7 +86,9 @@ function initialiseApp() {
                             
                             // Get sum of all holdings
                             totalAmountHolding += coinHoldingsValue;
-                            
+                            // Get sum of previous amount user was holding
+                            totalPrevAmountHolding += coinHoldingsValue / (1+(coinPercentage/100));  
+
                             coinHoldingsElement.appendChild(coinHoldingsValueText);
                             cryptoSecondaryDiv.appendChild(coinHoldingsElement);
                         }
@@ -93,8 +96,12 @@ function initialiseApp() {
                         // Show total amount that user is holding
                         if (totalAmountHolding)
                         {
-                            document.getElementById("crypto-amount").style.display = 'block';
+                            document.getElementById("crypto-total").style.display = 'flex';
                             document.getElementById("crypto-amount-text").innerHTML = totalAmountHolding.toFixed(2);
+                            let totalAmountPercent = (totalAmountHolding - totalPrevAmountHolding)/totalPrevAmountHolding;
+                            totalAmountPercent *= 100;
+                            document.getElementById("crypto-amount-change").style.color = totalAmountPercent[0] === "-" ? "#e60000" : "#00e600"
+                            document.getElementById("crypto-amount-change-text").innerHTML = totalAmountPercent.toFixed(2);
                         }
                         cryptoEntry.appendChild(cryptoSecondaryDiv);
 

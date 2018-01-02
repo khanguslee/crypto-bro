@@ -55,9 +55,7 @@ function syncTextboxes() {
     const defaultJsonValue = {'coins':{'bitcoin': {"value": 1}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
         var coinList = result["coins"];
-        console.log(coinList);
         for (var key in coinList) {
-            console.log(key);
             let isChecked = coinList[key]['display'];
             userValue = coinList[key]['value'];
 
@@ -131,10 +129,7 @@ function updateList() {
     let coinName = this.id.substr(3);
     var coinList;
     const defaultJsonValue = {'coins':{'bitcoin': {"display": true}}};
-
-    if (this.checked) {
-        document.getElementById('tb-' + coinName).style.display = 'inline';
-    }
+    document.getElementById('tb-' + coinName).style.display = this.checked ? 'inline' : 'none';
 
     chrome.storage.sync.get(defaultJsonValue, (result) => {
         coinList = result["coins"];

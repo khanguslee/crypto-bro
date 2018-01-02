@@ -41,6 +41,7 @@ function initialiseApp() {
 
                     // Add in name paragraph
                     let coinNameElement = document.createElement('p');
+                    coinNameElement.setAttribute('class', 'crypto-name');
                     let coinNameValue = document.createTextNode(data[0].name + ' ' + data[0].symbol);
                     coinNameElement.appendChild(coinNameValue);
                     cryptoMainDiv.appendChild(coinNameElement);
@@ -61,10 +62,13 @@ function initialiseApp() {
                     
                     // Add in coin percentage change
                     let coinPercentageElement = document.createElement('p');
+                    coinPercentageElement.setAttribute('class', 'crypto-percentage');
                     let coinPercentage = data[0].percent_change_24h;
+                    coinPercentageElement.style.color = coinPercentage[0] === "-" ? "#e60000" : "#00e600"
                     let coinPercentageText = document.createTextNode(coinPercentage + "%");
                     coinPercentageElement.appendChild(coinPercentageText);
                     cryptoSecondaryDiv.appendChild(coinPercentageElement);
+
 
                     // Add in amount that user holds
                     let coinHoldingsElement = document.createElement('p');
@@ -77,7 +81,7 @@ function initialiseApp() {
                         if ('value' in coinList[data[0].id] & coinList[data[0].id] != 0) {
                             var coinHoldingsAmount = parseFloat(coinList[data[0].id]['value']);
                             coinHoldingsValue *= coinHoldingsAmount;
-                            let coinHoldingsValueText = document.createTextNode('Total: ' + selectedCurrency + '$' + coinHoldingsValue.toFixed(2));
+                            let coinHoldingsValueText = document.createTextNode(selectedCurrency + '$' + coinHoldingsValue.toFixed(2));
                             
                             // Get sum of all holdings
                             totalAmountHolding += coinHoldingsValue;

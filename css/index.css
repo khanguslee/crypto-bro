@@ -29,14 +29,25 @@ body .crypto-entry {
     border-bottom: 1px solid #F2F2F2;
     padding: 3px;
     display: flex;
+    margin-left: 5px;
+    margin-right: 5px;
 } 
 
 body .crypto-entry:hover {
     background: #F2F2F2;
 }
 
+body .crypto-name {
+    font-size: 110%;
+    font-weight: bold;
+}
+
 body .crypto-price {
     color: #999999;
+}
+
+body .crypto-percentage {
+    font-size: 110%;
 }
 
 body .crypto-main {

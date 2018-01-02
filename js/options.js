@@ -79,7 +79,6 @@ function editUserCoinAmount(event) {
     chrome.storage.sync.get(defaultJsonValue, (result) => {
         coinList = result["coins"];
         coinList[coinName]['value'] = userInputCoinAmount;
-        console.log(coinList);
         chrome.storage.sync.set({'coins': coinList}, () => {
             console.log("Coin value saved!");
         });
@@ -144,7 +143,6 @@ function updateList() {
             coinList[coinName] = {};
         }
         coinList[coinName]['display'] = this.checked ? true : false;
-        console.log(coinList);
         chrome.storage.sync.set({
             'coins' : coinList
         }, () => {

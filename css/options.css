@@ -9,7 +9,7 @@ body {
 
 #coin-option-container #coin-entry {
     margin: 5px;
-    padding: 8px;
+    padding: 10px;
 }
 
 #coin-option-container #coin-entry:hover {
@@ -28,5 +28,6 @@ body {
 #coin-entry .input-user-coin-amount{
     margin-left: 10px;
     display: none;
+    float: right;
 }
 

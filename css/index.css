@@ -1,6 +1,6 @@
 body {
     font-family: 'Open Sans', sans-serif;    
-    min-width: 300px;
+    min-width: 350px;
     height: 100%;
 }
 
@@ -11,6 +11,18 @@ body #header {
 
 body #header p {
     margin: 0px;    
+}
+
+body #crypto-amount {
+    text-align: right;
+    margin-right: 10px;
+    display: none;
+}
+
+body #crypto-amount p {
+    font-size: 15px;
+    margin-top: 0px;
+    margin-bottom: 5px;
 }
 
 body .crypto-entry {

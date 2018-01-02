@@ -13,6 +13,7 @@ function initialiseApp() {
         // Get currency to display
         chrome.storage.sync.get({"currency": "USD"}, (result) => {
             var selectedCurrency = result["currency"];
+            var totalAmountHolding = 0;
             for (var key in coinList) {
                 // Check if user has selected the coin
                 if (!coinList[key]["display"]) {
@@ -48,7 +49,8 @@ function initialiseApp() {
                     // Add in price paragraph
                     let coinPriceElement = document.createElement('p');
                     coinPriceElement.setAttribute('class', 'crypto-price');
-                    let coinPriceValue = document.createTextNode(selectedCurrency + '$' + data[0]['price_' + selectedCurrency.toLowerCase()]);
+                    let coinPrice = parseFloat(data[0]['price_' + selectedCurrency.toLowerCase()]).toPrecision(5);
+                    let coinPriceValue = document.createTextNode(selectedCurrency + '$' + coinPrice);
                     coinPriceElement.appendChild(coinPriceValue); 
                     cryptoMain.appendChild(coinPriceElement);
                     cryptoEntry.appendChild(cryptoMain);
@@ -59,12 +61,25 @@ function initialiseApp() {
                     chrome.storage.sync.get(defaultJsonValue, (result) => {
                         var coinHoldingsValue = data[0]['price_' + selectedCurrency.toLowerCase()];
                         var coinList = result["coins"];
+
+                        // If user has specified that they hold this coin
                         if ('value' in coinList[data[0].id] & coinList[data[0].id] != 0) {
-                            var coinHoldingsAmount = coinList[data[0].id]['value'];
+                            var coinHoldingsAmount = parseFloat(coinList[data[0].id]['value']);
                             coinHoldingsValue *= coinHoldingsAmount;
-                            let coinHoldingsValueText = document.createTextNode('Total: ' + selectedCurrency + '$' + coinHoldingsValue);
+                            let coinHoldingsValueText = document.createTextNode('Total: ' + selectedCurrency + '$' + coinHoldingsValue.toFixed(2));
+                            
+                            // Get sum of all holdings
+                            totalAmountHolding += coinHoldingsValue;
+                            
                             coinHoldingsElement.appendChild(coinHoldingsValueText);
                             cryptoEntry.appendChild(coinHoldingsElement);
+                        }
+
+                        // Show total amount that user is holding
+                        if (totalAmountHolding)
+                        {
+                            document.getElementById("crypto-amount").style.display = 'block';
+                            document.getElementById("crypto-amount-text").innerHTML = totalAmountHolding.toFixed(2);
                         }
 
                         cryptoDiv.appendChild(cryptoEntry);

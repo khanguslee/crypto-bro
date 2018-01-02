@@ -16,3 +16,4 @@ To load the application, type in `chrome://extensions/` into the browser and che
 - [x] Currency conversion
 - [ ] Add green/red arrows to show if the coin increased/decreased in value
 - [ ] Search bar in the options menu
+- [ ] Use jquery to cut down on code (Next major version)

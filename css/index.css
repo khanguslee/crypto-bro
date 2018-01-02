@@ -1,6 +1,6 @@
 body {
     font-family: 'Open Sans', sans-serif;    
-    min-width: 350px;
+    min-width: 300px;
     height: 100%;
 }
 
@@ -28,6 +28,7 @@ body #crypto-amount p {
 body .crypto-entry {
     border-bottom: 1px solid #F2F2F2;
     padding: 3px;
+    display: flex;
 } 
 
 body .crypto-entry:hover {
@@ -36,4 +37,13 @@ body .crypto-entry:hover {
 
 body .crypto-price {
     color: #999999;
+}
+
+body .crypto-main {
+    flex: 1;
+}
+
+body .crypto-secondary {
+    flex: 1;
+    text-align: right;
 }

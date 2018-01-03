@@ -7,25 +7,25 @@ body {
     padding-left: 0;    
 }
 
-#coin-option-container #coin-entry {
+#coin-option-container .coin-entry {
     margin: 5px;
     padding: 10px;
 }
 
-#coin-option-container #coin-entry:hover {
+#coin-option-container .coin-entry:hover {
     background: #F2F2F2;
 }
 
-#coin-entry p {
+.coin-entry p {
     width: 20px;
     display: inline
 }
 
-#coin-entry input {
+.coin-entry input {
     margin-right: 10px;
 }
 
-#coin-entry .input-user-coin-amount{
+.coin-entry .input-user-coin-amount{
     margin-left: 10px;
     display: none;
     float: right;

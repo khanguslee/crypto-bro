@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     displayCurrencyOption();
     displayAllCoins();
+    enableSearchBar();
 });
 
 const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
@@ -92,8 +93,8 @@ function displayAllCoins() {
         for (let i = 0; i< data.length; i++)
         {
             let newCoinEntry = document.createElement('li');
-            newCoinEntry.id = 'coin-entry';
-
+            newCoinEntry.className = 'coin-entry';
+            newCoinEntry.id = data[i].symbol + '-' + data[i].id;
             // Add check box
             let checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
@@ -144,4 +145,26 @@ function updateList() {
             console.log('Settings saved');
         });
     }); 
+}
+
+function searchCoinsEvent(event) {
+    var coinEntries = document.querySelectorAll(".coin-entry");
+    for (let index=0; index < coinEntries.length; index++)
+    {
+        let splitIdIndex = coinEntries[index].id.indexOf('-');
+        let coinSymbol = coinEntries[index].id.substr(0, splitIdIndex);
+        let coinName = coinEntries[index].id.substr(splitIdIndex+1);
+
+        if ((coinSymbol.search(this.value) != -1) || (coinName.search(this.value) != -1))
+        {
+            coinEntries[index].style.display = 'block';
+        } else {
+            coinEntries[index].style.display = 'none';
+        }
+    }
+}
+
+function enableSearchBar() {
+    let searchBar = document.getElementById('crypto-search-bar');
+    searchBar.addEventListener('input', searchCoinsEvent);
 }

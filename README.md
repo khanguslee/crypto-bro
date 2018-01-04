@@ -21,3 +21,6 @@ To load the application, type in `chrome://extensions/` into the browser and che
 - [ ] Add option to display either 1 hour, 24hour or 7 day percent change of the price
 - [ ] Night Mode
 - [ ] Displayed entries in same order each time
+- [ ] Add link to the coin's coinmarketcap page
+- [ ] Logo for app
+- [ ] Animation when opening up extension

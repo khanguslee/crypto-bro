@@ -41,9 +41,9 @@ function changeCurrency(selectedCurrency) {
 
 function syncCheckboxes() {
     // Tick checkboxes that user has already set
-    const defaultJsonValue = {'coins':{'bitcoin': {"display": true}}};
+    const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
-        var coinList = result["coins"];
+        var coinList = result["coinOptions"];
         for (var key in coinList) {
             let isChecked = coinList[key]['display'];
             document.getElementById("cb-" + key).checked = isChecked;
@@ -53,9 +53,9 @@ function syncCheckboxes() {
 
 function syncTextboxes() {
     // Set textboxes that user has already set
-    const defaultJsonValue = {'coins':{'bitcoin': {"value": 1}}};
+    const defaultJsonValue = {'coinOptions':{'bitcoin': {"value": 1}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
-        var coinList = result["coins"];
+        var coinList = result["coinOptions"];
         for (var key in coinList) {
             let isChecked = coinList[key]['display'];
             userValue = coinList[key]['value'];
@@ -74,11 +74,11 @@ function editUserCoinAmount(event) {
     var coinName = this.id.substr(3);
     var coinList;
 
-    const defaultJsonValue = {'coins':{'bitcoin': {"display": true}}};
+    const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
-        coinList = result["coins"];
+        coinList = result["coinOptions"];
         coinList[coinName]['value'] = userInputCoinAmount;
-        chrome.storage.sync.set({'coins': coinList}, () => {
+        chrome.storage.sync.set({'coinOptions': coinList}, () => {
             console.log("Coin value saved!");
         });
     });
@@ -129,18 +129,18 @@ function updateList() {
     */
     let coinName = this.id.substr(3);
     var coinList;
-    const defaultJsonValue = {'coins':{'bitcoin': {"display": true}}};
+    const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
     document.getElementById('tb-' + coinName).style.display = this.checked ? 'inline' : 'none';
 
     chrome.storage.sync.get(defaultJsonValue, (result) => {
-        coinList = result["coins"];
+        coinList = result["coinOptions"];
 
         if (!(coinName in coinList)) {
             coinList[coinName] = {};
         }
         coinList[coinName]['display'] = this.checked ? true : false;
         chrome.storage.sync.set({
-            'coins' : coinList
+            'coinOptions' : coinList
         }, () => {
             console.log('Settings saved');
         });

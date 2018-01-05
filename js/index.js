@@ -79,9 +79,10 @@ function updateCoin(currency, coin , coinAmount){
 }
 
 function initialiseApp() {
-    const defaultJsonValue = {'coins':{'bitcoin': {"display": true}}};
+    const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
     chrome.storage.sync.get(defaultJsonValue, (storedCoinList) => {
-        var coinList = storedCoinList['coins'];
+        console.log(storedCoinList);
+        var coinList = storedCoinList['coinOptions'];
         var cryptoDiv = document.getElementById('crypto-container');
 
         // Get currency to display

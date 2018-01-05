@@ -1,4 +1,5 @@
 function updateCoinList() {
+    console.log('Updating coins...');
     // Get currency to display
     chrome.storage.sync.get({"currency": "USD"}, (storedCurrency) => {
         var currency = storedCurrency["currency"];
@@ -14,12 +15,8 @@ function updateCoinList() {
         fetch(coinURL)
         .then((response) => response.json())
         .then((data) => {
-            var coinList = {};
-            for (let i=0; i<data.length; i++) {
-                coinList[data[i].id] = data[i];
-            }
             // Store data from coinmarketcap
-            chrome.storage.sync.set({'coins':coinList});
+            chrome.storage.local.set({'coins': data});
         })
         .catch((error) => {
             console.log(error);
@@ -29,4 +26,4 @@ function updateCoinList() {
 
 setInterval(() => {
     updateCoinList();
-}, 4000);
+}, 5000);

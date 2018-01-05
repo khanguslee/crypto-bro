@@ -86,25 +86,26 @@ function editUserCoinAmount(event) {
 
 function displayAllCoins() {
     // Display all available crypto currency coins available from coinmarketcap
-    fetch(cmcBaseUrl + '/ticker/?limit=0')
-    .then((response) => response.json())
-    .then((data) => {
-        let coinList = document.getElementById('coin-option-list')
-        for (let i = 0; i< data.length; i++)
+
+    chrome.storage.local.get({'coins':[]}, (storedList) => {
+        var coinList = storedList['coins'];
+        let coinListElement = document.getElementById('coin-option-list')
+        for (let i=0; i<coinList.length; i++)
         {
+            let coinDetails = coinList[i];
             let newCoinEntry = document.createElement('li');
             newCoinEntry.className = 'coin-entry';
-            newCoinEntry.id = data[i].symbol + '-' + data[i].id;
+            newCoinEntry.id = coinDetails.symbol + '-' + coinDetails.id;
             // Add check box
             let checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
-            checkbox.id = 'cb-' + data[i].id;
+            checkbox.id = 'cb-' + coinDetails.id;
             checkbox.addEventListener('click', updateList);
             newCoinEntry.appendChild(checkbox);
 
             // Add coin name text
             let coinNameTextElement = document.createElement('p');
-            let coinNameText = document.createTextNode(data[i].name)
+            let coinNameText = document.createTextNode(coinDetails.name)
             coinNameTextElement.appendChild(coinNameText);
             newCoinEntry.appendChild(coinNameTextElement);
 
@@ -112,15 +113,15 @@ function displayAllCoins() {
             let inputUserCoinAmount = document.createElement('input');
             inputUserCoinAmount.type = 'number';
             inputUserCoinAmount.className = 'input-user-coin-amount';
-            inputUserCoinAmount.id = 'tb-' + data[i].id;
+            inputUserCoinAmount.id = 'tb-' + coinDetails.id;
             inputUserCoinAmount.addEventListener('input', editUserCoinAmount);
             newCoinEntry.appendChild(inputUserCoinAmount);
 
-            coinList.appendChild(newCoinEntry);                    
+            coinListElement.appendChild(newCoinEntry);     
         }
         syncCheckboxes();
         syncTextboxes();
-    })
+    });
 }
 
 function updateList() {
@@ -148,6 +149,8 @@ function updateList() {
 }
 
 function searchCoinsEvent(event) {
+    // Note that all objects with a class coin entry have an ID of NAME-
+    SYMBOL  
     var coinEntries = document.querySelectorAll(".coin-entry");
     for (let index=0; index < coinEntries.length; index++)
     {

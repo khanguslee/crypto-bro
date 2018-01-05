@@ -11,7 +11,7 @@
         "default_title" : "Crypto Bro"
     },
     "background" : {
-        "scripts" : ["js/index.js"]
+        "scripts" : ["js/background.js"]
     },
     "options_ui": {
         "page": "html/options.html",

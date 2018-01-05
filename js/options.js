@@ -84,44 +84,81 @@ function editUserCoinAmount(event) {
     });
 }
 
+function createCoinOptionList(coinList) {
+    let coinListElement = document.getElementById('coin-option-list')
+    coinListElement.innerHTML = ''
+    for (let i=0; i<coinList.length; i++)
+    {
+        let coinDetails = coinList[i];
+        let newCoinEntry = document.createElement('li');
+        newCoinEntry.className = 'coin-entry';
+        newCoinEntry.id = coinDetails.symbol + '-' + coinDetails.id;
+        // Add check box
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'cb-' + coinDetails.id;
+        checkbox.addEventListener('click', updateList);
+        newCoinEntry.appendChild(checkbox);
+
+        // Add coin name text
+        let coinNameTextElement = document.createElement('p');
+        let coinNameText = document.createTextNode(coinDetails.name)
+        coinNameTextElement.appendChild(coinNameText);
+        newCoinEntry.appendChild(coinNameTextElement);
+
+        // Add input box
+        let inputUserCoinAmount = document.createElement('input');
+        inputUserCoinAmount.type = 'number';
+        inputUserCoinAmount.className = 'input-user-coin-amount';
+        inputUserCoinAmount.id = 'tb-' + coinDetails.id;
+        inputUserCoinAmount.addEventListener('input', editUserCoinAmount);
+        newCoinEntry.appendChild(inputUserCoinAmount);
+
+        coinListElement.appendChild(newCoinEntry);     
+    }
+}
+
 function displayAllCoins() {
     // Display all available crypto currency coins available from coinmarketcap
-
     chrome.storage.local.get({'coins':[]}, (storedList) => {
         var coinList = storedList['coins'];
-        let coinListElement = document.getElementById('coin-option-list')
-        for (let i=0; i<coinList.length; i++)
-        {
-            let coinDetails = coinList[i];
-            let newCoinEntry = document.createElement('li');
-            newCoinEntry.className = 'coin-entry';
-            newCoinEntry.id = coinDetails.symbol + '-' + coinDetails.id;
-            // Add check box
-            let checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = 'cb-' + coinDetails.id;
-            checkbox.addEventListener('click', updateList);
-            newCoinEntry.appendChild(checkbox);
-
-            // Add coin name text
-            let coinNameTextElement = document.createElement('p');
-            let coinNameText = document.createTextNode(coinDetails.name)
-            coinNameTextElement.appendChild(coinNameText);
-            newCoinEntry.appendChild(coinNameTextElement);
-
-            // Add input box
-            let inputUserCoinAmount = document.createElement('input');
-            inputUserCoinAmount.type = 'number';
-            inputUserCoinAmount.className = 'input-user-coin-amount';
-            inputUserCoinAmount.id = 'tb-' + coinDetails.id;
-            inputUserCoinAmount.addEventListener('input', editUserCoinAmount);
-            newCoinEntry.appendChild(inputUserCoinAmount);
-
-            coinListElement.appendChild(newCoinEntry);     
-        }
+        createCoinOptionList(coinList);
         syncCheckboxes();
         syncTextboxes();
     });
+}
+
+function displaySearch(event) {
+    // Display search results
+    chrome.storage.local.get({'coins':[]}, (storedList) => {
+        var coinList = storedList['coins'];
+        var newCoinList = [];
+
+        // Find coin symbol and id with the given search text
+        for (let i=0; i<coinList.length; i++) {
+            let coinEntry = coinList[i];
+
+            let splitIdIndex = coinEntry.id.indexOf('-');
+            let coinSymbol = coinEntry.id.substr(0, splitIdIndex);
+            let coinName = coinEntry.id.substr(splitIdIndex+1);
+    
+            if ((coinSymbol.search(this.value) != -1) || (coinName.search(this.value) != -1))
+            {
+                newCoinList.push(coinEntry);
+            }
+        }
+
+        // Empty existing list
+        let coinListElement = document.getElementById('coin-option-list')
+        coinListElement.innerHTML = ''
+        if(newCoinList.length <= 0) {
+            coinListElement.innerHTML = 'No Results Found';
+            return;
+        }
+        createCoinOptionList(newCoinList);
+        syncCheckboxes();
+        syncTextboxes();
+    })
 }
 
 function updateList() {
@@ -148,26 +185,7 @@ function updateList() {
     }); 
 }
 
-function searchCoinsEvent(event) {
-    // Note that all objects with a class coin entry have an ID of NAME-
-    SYMBOL  
-    var coinEntries = document.querySelectorAll(".coin-entry");
-    for (let index=0; index < coinEntries.length; index++)
-    {
-        let splitIdIndex = coinEntries[index].id.indexOf('-');
-        let coinSymbol = coinEntries[index].id.substr(0, splitIdIndex);
-        let coinName = coinEntries[index].id.substr(splitIdIndex+1);
-
-        if ((coinSymbol.search(this.value) != -1) || (coinName.search(this.value) != -1))
-        {
-            coinEntries[index].style.display = 'block';
-        } else {
-            coinEntries[index].style.display = 'none';
-        }
-    }
-}
-
 function enableSearchBar() {
     let searchBar = document.getElementById('crypto-search-bar');
-    searchBar.addEventListener('input', searchCoinsEvent);
+    searchBar.addEventListener('input', displaySearch);
 }

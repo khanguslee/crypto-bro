@@ -17,6 +17,7 @@ function updateCoinList() {
         .then((data) => {
             // Store data from coinmarketcap
             chrome.storage.local.set({'coins': data});
+            console.log(data);
         })
         .catch((error) => {
             console.log(error);

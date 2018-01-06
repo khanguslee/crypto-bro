@@ -7,20 +7,20 @@ A chrome extension to check the prices of cryptocurrency on [Coin Market Cap](ht
 To load the application, type in `chrome://extensions/` into the browser and check "Developer Mode". Click on "Load unpacked extension..." and select the folder of this repository. 
 
 ## To do:
-- [x] Display Bitcoin price
-- [x] Display Bitcoin 24 Hour change
-- [x] Load prices upon opening extension (No button needed)
+### Functionality
 - [x] Option to show/hide other cryptocurrencys
 - [x] Input the amount of cryptocurrencys you own
 - [ ] Alert system
 - [x] Currency conversion
-- [x] Add green/red arrows to show if the coin increased/decreased in value
-- [x] Change percent change text to green/red if the coin increased/decreased in value
 - [x] Search bar in the options menu
 - [ ] Use jquery to cut down on code (Next major version)
 - [ ] Add option to display either 1 hour, 24hour or 7 day percent change of the price
-- [ ] Night Mode
 - [x] Displayed entries in same order each time
 - [ ] Add link to the coin's coinmarketcap page
+
+### Design
+- [x] Add green/red arrows to show if the coin increased/decreased in value
+- [x] Change percent change text to green/red if the coin increased/decreased in value
+- [ ] Night Mode
 - [ ] Logo for app
 - [ ] Animation when opening up extension

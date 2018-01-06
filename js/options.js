@@ -55,7 +55,7 @@ function syncCheckboxes() {
 
 function syncTextboxes() {
     // Set textboxes that user has already set
-    const defaultJsonValue = {'coinOptions':{'bitcoin': {"value": 1}}};
+    const defaultJsonValue = {'coinOptions':{'bitcoin': {"value": ''}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
         var coinList = result["coinOptions"];
         for (var key in coinList) {

@@ -2,7 +2,7 @@ function updateCoinList() {
     // Get currency to display
     chrome.storage.sync.get({"currency": "USD"}, (storedCurrency) => {
         var currency = storedCurrency["currency"];
-        console.log('Updating with ' + currency);
+        console.log('Updating coin data with ' + currency);
 
         const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
         // Set URL to get information from

@@ -1,8 +1,8 @@
 function updateCoinList() {
-    console.log('Updating coins...');
     // Get currency to display
     chrome.storage.sync.get({"currency": "USD"}, (storedCurrency) => {
         var currency = storedCurrency["currency"];
+        console.log('Updating with ' + currency);
 
         const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
         // Set URL to get information from
@@ -17,7 +17,6 @@ function updateCoinList() {
         .then((data) => {
             // Store data from coinmarketcap
             chrome.storage.local.set({'coins': data});
-            console.log(data);
         })
         .catch((error) => {
             console.log(error);
@@ -27,4 +26,4 @@ function updateCoinList() {
 
 setInterval(() => {
     updateCoinList();
-}, 5000);
+}, 10000);

@@ -1,22 +1,21 @@
 var totalAmountHolding = 0, totalPrevAmountHolding = 0;
-
-initialiseApp();
+document.addEventListener("DOMContentLoaded", () => {
+    initialiseApp();
+});
 
 function updateCoin(currency, coin , coinAmount){
-    const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
-
-    // Set URL to get information from
-    var coinURL = cmcBaseUrl + '/ticker/' + coin + '/';
-    if (currency != "USD") {
-        coinURL += '?convert=' + currency;
-    }
-
-    fetch(coinURL)
-    .then((response) => response.json())
-    .then((data) => {
-        let coinID = data[0].id;
-        let coinName = data[0].name;
-        let coinSymbol = data[0].symbol;
+    chrome.storage.local.get({'coins':[]}, (storedList) => {
+        var coinList = storedList['coins'];
+        for (var i=0; i<coinList.length; i++) {
+            if (coinList[i].id == coin)
+            {
+                break;
+            }
+        }
+        let coinEntry = coinList[i];
+        let coinID = coinEntry.id;
+        let coinName = coinEntry.name;
+        let coinSymbol = coinEntry.symbol;
 
         // Name of coin
         let coinNameElement = document.getElementById('name-' + coinID);
@@ -27,7 +26,7 @@ function updateCoin(currency, coin , coinAmount){
         coinNameElement.appendChild(coinNameValue);
 
         // Price of coin
-        let coinPrice = parseFloat(data[0]['price_' + currency.toLowerCase()]).toPrecision(5);
+        let coinPrice = parseFloat(coinEntry['price_' + currency.toLowerCase()]).toPrecision(5);
         let coinPriceElement = document.getElementById('price-' + coinID);
         let coinPriceValue = document.createTextNode(coinPrice);
         if (coinPriceElement.childNodes[0]) {
@@ -37,7 +36,7 @@ function updateCoin(currency, coin , coinAmount){
 
         // Percentage change of coin
         let coinPercentageElement = document.getElementById('percentage-' + coinID);
-        var coinPercentage = data[0].percent_change_24h;
+        var coinPercentage = coinEntry.percent_change_24h;
         coinPercentageElement.style.color = coinPercentage[0] === "-" ? "#e60000" : "#00e600";
         let coinPercentageText = document.createTextNode(coinPercentage + "%");
         if (coinPercentageElement.childNodes[0]) {
@@ -48,7 +47,7 @@ function updateCoin(currency, coin , coinAmount){
         // User held value
         if (coinAmount) {
             let coinHoldingsElement = document.getElementById('holdings-' + coinID);
-            let coinPrice = data[0]['price_' + currency.toLowerCase()];
+            let coinPrice = coinEntry['price_' + currency.toLowerCase()];
             let coinHoldingsAmount = coinAmount * coinPrice;
             let coinHoldingsText = document.createTextNode(currency + '$' + coinHoldingsAmount.toFixed(2));
             if (coinHoldingsElement.childNodes[0]) {
@@ -73,15 +72,11 @@ function updateCoin(currency, coin , coinAmount){
             document.getElementById("crypto-amount-change-text").innerHTML = totalAmountPercent.toFixed(2);
         }
     })
-    .catch((error) => {
-        console.log(error);
-    });  
 }
 
 function initialiseApp() {
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
     chrome.storage.sync.get(defaultJsonValue, (storedCoinList) => {
-        console.log(storedCoinList);
         var coinList = storedCoinList['coinOptions'];
         var cryptoDiv = document.getElementById('crypto-container');
 

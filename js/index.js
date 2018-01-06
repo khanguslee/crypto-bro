@@ -96,7 +96,7 @@ function initialiseApp() {
         // Get currency to display
         chrome.storage.sync.get({"currency": "USD"}, (storedCurrency) => {
             var selectedCurrency = storedCurrency["currency"];
-
+            const coinURLStart = 'https://coinmarketcap.com/currencies/';
             for (var coin in coinList) {
                 // Check if user has selected the coin
                 if (!coinList[coin]["display"]) {
@@ -115,11 +115,17 @@ function initialiseApp() {
                 // Add in name paragraph
                 let coinNameElement = document.createElement('p');
                 coinNameElement.setAttribute('class', 'crypto-name');
+                // Create anchor to the coin;'s coinmarketcap page
+                let coinLinkElement = document.createElement('a');
+                coinLinkElement.href = coinURLStart + '/' + coin;
+                coinLinkElement.target = '_blank';
+                // Create span to store name and symbol
                 let coinNameSpan = document.createElement('span');
                 coinNameSpan.id = 'name-' + coin;
                 let coinNameValue = document.createTextNode(coin);
                 coinNameSpan.appendChild(coinNameValue);
-                coinNameElement.appendChild(coinNameSpan);
+                coinLinkElement.appendChild(coinNameSpan);
+                coinNameElement.appendChild(coinLinkElement);
                 cryptoMainDiv.appendChild(coinNameElement);
                 cryptoEntry.appendChild(cryptoMainDiv);
 

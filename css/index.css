@@ -11,6 +11,7 @@ body #header {
 
 body #header p {
     margin: 0px;    
+    font-size: 20px;
 }
 
 body #crypto-total {
@@ -81,4 +82,18 @@ body .crypto-secondary {
 
 body .arrow {
     margin-right: 4px;
+}
+
+a:link {
+    color: black;
+    text-decoration: none; 
+}
+
+a:visited {
+    color: black;
+    text-decoration: none; 
+}
+
+a:hover {
+    text-decoration: underline;
 }

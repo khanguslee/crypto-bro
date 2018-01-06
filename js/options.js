@@ -35,6 +35,9 @@ function displayCurrencyOption() {
 function changeCurrency(selectedCurrency) {
     // Change the selected displayed currency
     chrome.storage.sync.set({"currency": selectedCurrency.target.value}, () => {
+        chrome.extension.getBackgroundPage((backgroundPage) => {
+            backgroundPage.updateCoinList();
+        });
         console.log("Currency set as " + selectedCurrency.target.value);
     });
 }

@@ -14,7 +14,7 @@ To load the application, type in `chrome://extensions/` into the browser and che
 - [x] Input the amount of cryptocurrencys you own
 - [ ] Alert system
 - [x] Currency conversion
-- [ ] Add green/red arrows to show if the coin increased/decreased in value
+- [x] Add green/red arrows to show if the coin increased/decreased in value
 - [x] Change percent change text to green/red if the coin increased/decreased in value
 - [x] Search bar in the options menu
 - [ ] Use jquery to cut down on code (Next major version)

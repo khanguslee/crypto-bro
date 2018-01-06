@@ -78,3 +78,7 @@ body .crypto-secondary {
     flex: 1;
     text-align: right;
 }
+
+body .arrow {
+    margin-right: 4px;
+}

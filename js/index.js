@@ -39,10 +39,15 @@ function updateCoin(currency, coin , coinAmount){
         var coinPercentage = coinEntry.percent_change_24h;
         coinPercentageElement.style.color = coinPercentage[0] === "-" ? "#e60000" : "#00e600";
         let coinPercentageText = document.createTextNode(coinPercentage + "%");
+        // Add arrow icon
+        let arrowChange = document.createElement('i');
+        arrowChange.className = coinPercentage[0] === '-' ? "arrow fas fa-angle-down" : "arrow fas fa-angle-up";
+        
         if (coinPercentageElement.childNodes[0]) {
             coinPercentageElement.removeChild(coinNameElement.childNodes[0]);
         }
         coinPercentageElement.appendChild(coinPercentageText);
+        coinPercentageElement.insertBefore(arrowChange, coinPercentageText);
 
         // User held value
         if (coinAmount) {
@@ -65,11 +70,19 @@ function updateCoin(currency, coin , coinAmount){
         if (totalAmountHolding)
         {
             document.getElementById("crypto-total").style.display = 'flex';
-            document.getElementById("crypto-amount-text").innerHTML = totalAmountHolding.toFixed(2);
+            let portfolioTotalElement = document.getElementById("crypto-amount-text");
+            portfolioTotalElement.innerHTML = totalAmountHolding.toFixed(2);
             let totalAmountPercent = (totalAmountHolding - totalPrevAmountHolding)/totalPrevAmountHolding;
             totalAmountPercent *= 100;
-            document.getElementById("crypto-amount-change").style.color = totalAmountPercent[0] === "-" ? "#e60000" : "#00e600"
-            document.getElementById("crypto-amount-change-text").innerHTML = totalAmountPercent.toFixed(2);
+            let portfolioChangeElement = document.getElementById('crypto-amount-change');
+            // Change colour to red or green
+            portfolioChangeElement.style.color = totalAmountPercent < 0 ? "#e60000" : "#00e600"
+            // Add arrow icon
+            let arrowChange = document.createElement('i');
+            arrowChange.className = totalAmountPercent < 0 ? "arrow fas fa-angle-down" : "arrow fas fa-angle-up";
+            let portfolioChangeTextElement = document.getElementById("crypto-amount-change-text");
+            portfolioChangeElement.insertBefore(arrowChange, portfolioChangeTextElement);
+            portfolioChangeTextElement.innerHTML = totalAmountPercent.toFixed(2);
         }
     })
 }

@@ -113,6 +113,7 @@ function createCoinOptionList(coinList) {
         inputUserCoinAmount.type = 'number';
         inputUserCoinAmount.className = 'input-user-coin-amount';
         inputUserCoinAmount.id = 'tb-' + coinDetails.id;
+        inputUserCoinAmount.placeholder = coinDetails.name + ' Quantity';
         inputUserCoinAmount.addEventListener('input', editUserCoinAmount);
         newCoinEntry.appendChild(inputUserCoinAmount);
 

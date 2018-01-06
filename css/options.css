@@ -2,6 +2,19 @@ body {
     font-family: 'Open Sans', sans-serif;     
 }
 
+#currency-header {
+    display: flex;
+}
+
+#currency-header h1{
+    flex: 1;
+    margin: 0;
+}
+
+#currency-option-list {
+    flex: 1;
+}
+
 #coin-option-container #coin-option-list {
     list-style-type: none;
     padding-left: 0;    

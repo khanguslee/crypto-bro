@@ -78,10 +78,21 @@ function updateCoin(currency, coin , coinAmount){
             // Change colour to red or green
             portfolioChangeElement.style.color = totalAmountPercent < 0 ? "#e60000" : "#00e600"
             // Add arrow icon
-            let arrowChange = document.createElement('i');
-            arrowChange.className = totalAmountPercent < 0 ? "arrow fas fa-angle-down" : "arrow fas fa-angle-up";
             let portfolioChangeTextElement = document.getElementById("crypto-amount-change-text");
-            portfolioChangeElement.insertBefore(arrowChange, portfolioChangeTextElement);
+
+            // Insert arrow if there is none yet.
+            if (portfolioChangeElement.childNodes.length == 2)
+            {
+                let portfolioArrowChange = document.createElement('i');
+                portfolioArrowChange.id = 'portfolio-arrow';
+                portfolioChangeElement.insertBefore(portfolioArrowChange, portfolioChangeTextElement);
+            }
+            
+            let portfolioArrowChangeElement = document.getElementById('portfolio-arrow');
+            portfolioArrowChangeElement.className = totalAmountPercent < 0 ? "arrow fas fa-angle-down" : "arrow fas fa-angle-up";
+            console.log(totalAmountPercent);
+            console.log(portfolioArrowChangeElement);
+            console.log(portfolioArrowChangeElement.className);
             portfolioChangeTextElement.innerHTML = totalAmountPercent.toFixed(2);
         }
     })

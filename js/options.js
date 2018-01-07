@@ -148,6 +148,11 @@ function createCoinOptionList(coinList) {
         closeElement.innerHTML = '&times;';
         coinModalContent.appendChild(closeElement);
 
+        // Add header to modal
+        let modalHeader = document.createElement('h1');
+        modalHeader.textContent = 'Edit ' + coinDetails.name + ' Quantity';
+        coinModalContent.appendChild(modalHeader);
+
         // Add input box to modal
         let inputUserCoinAmount = document.createElement('input');
         inputUserCoinAmount.type = 'number';

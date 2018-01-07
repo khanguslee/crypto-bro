@@ -65,9 +65,9 @@ function syncButtons() {
             let coinButton = document.getElementById('btn-' + key);
             // Show/Hide button if checkbox checked/unchecked
             coinButton.style.display = isChecked ? 'inline' : 'none';
-
-            //let coinTextbox = document.getElementById('tb-' + key);
-            //coinTextbox.value = userValue;
+            // Set textbox value to stored value
+            let coinTextbox = document.getElementById('tb-' + key);
+            coinTextbox.value = userValue;
         }
     })
 }
@@ -153,14 +153,20 @@ function createCoinOptionList(coinList) {
         modalHeader.textContent = 'Edit ' + coinDetails.name + ' Quantity';
         coinModalContent.appendChild(modalHeader);
 
-        // Add input box to modal
+        // Add Quantity Text to modal
+        let modalText = document.createElement('p');
+        let modalTextValue = document.createTextNode('Quantity: ');
+        modalText.appendChild(modalTextValue);
+
+        // Add input box to modal after quantity text
         let inputUserCoinAmount = document.createElement('input');
         inputUserCoinAmount.type = 'number';
         inputUserCoinAmount.className = 'input-user-coin-amount';
         inputUserCoinAmount.id = 'tb-' + coinDetails.id;
         inputUserCoinAmount.placeholder = coinDetails.name + ' Quantity';
         inputUserCoinAmount.addEventListener('input', editUserCoinAmount);
-        coinModalContent.appendChild(inputUserCoinAmount);
+        modalText.appendChild(inputUserCoinAmount);
+        coinModalContent.appendChild(modalText);
 
         coinModal.appendChild(coinModalContent);
         newCoinEntry.appendChild(coinModal);

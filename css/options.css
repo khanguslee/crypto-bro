@@ -47,6 +47,13 @@ body {
 
 }
 
+.coin-entry .alert-button {
+    display: none;
+    margin-left: 5px;
+    min-width: min-content;
+    float: right;
+}
+
 #crypto-search-bar {
     width: 100%;
 }

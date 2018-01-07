@@ -62,25 +62,27 @@ function syncButtons() {
             let isChecked = coinList[key]['display'];
             userValue = coinList[key]['value'];
 
+            // Show/Hide buttons if checkbox checked/unchecked
             let coinButton = document.getElementById('btn-' + key);
-            // Show/Hide button if checkbox checked/unchecked
             coinButton.style.display = isChecked ? 'inline' : 'none';
+            let alertButton = document.getElementById('alert-' + key);
+            alertButton.style.display = isChecked ? 'inline' : 'none';
+
             // Set textbox value to stored value
             let coinTextbox = document.getElementById('tb-' + key);
             coinTextbox.value = userValue;
         }
     })
-}
+} 
 
 function editUserCoinAmount(event) {
     // Updates amount of coins user has of the chosen coin
     var userInputCoinAmount = this.valueAsNumber
     var coinName = this.id.substr(3);
-    var coinList;
 
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
-        coinList = result["coinOptions"];
+        var coinList = result["coinOptions"];
         coinList[coinName]['value'] = userInputCoinAmount;
         chrome.storage.sync.set({'coinOptions': coinList}, () => {
             console.log("Coin value saved!");
@@ -94,10 +96,22 @@ function setCoinQuantity(event) {
     modal.style.display = '';
 }
 
-function closeModal(event) {
+function closeAlertModal(event) {
+    let coinName = this.id.substr(12);  // Removes modal-alert-
+    let modal = document.getElementById('modal-alert-' + coinName);
+    modal.style.display = 'none';
+}
+
+function closeQuantityModal(event) {
     let coinName = this.id.substr(6);
     let modal = document.getElementById('modal-' + coinName);
     modal.style.display = 'none';
+}
+
+function alertCoin(event) {
+    let coinName = this.id.substr(6);
+    let modal = document.getElementById('modal-alert-' + coinName);
+    modal.style.display = '';
 }
 
 function createCoinOptionList(coinList) {
@@ -122,6 +136,38 @@ function createCoinOptionList(coinList) {
         coinNameTextElement.appendChild(coinNameText);
         newCoinEntry.appendChild(coinNameTextElement);
 
+        // Add Alert button
+        let alertButton = document.createElement('button');
+        alertButton.id = 'alert-' + coinDetails.id;
+        alertButton.className = 'alert-button';
+        alertButton.addEventListener('click', alertCoin);
+        // Add Alert icon
+        let alertIcon = document.createElement('i');
+        alertIcon.className = 'far fa-bell';
+        alertButton.appendChild(alertIcon);
+        newCoinEntry.appendChild(alertButton);
+
+        // Create modal to set alert options
+        let alertModal = document.createElement('div');
+        alertModal.id = 'modal-alert-' + coinDetails.id;
+        alertModal.className = 'modal-main';
+        alertModal.style.display = 'none';
+
+        let alertModalContent = document.createElement('div');
+        alertModalContent.id = 'modal-alert-content-' + coinDetails.id;
+        alertModalContent.className = 'modal-content';
+
+        // Add close button
+        let closeAlertElement = document.createElement('span');
+        closeAlertElement.className = 'close';
+        closeAlertElement.id = 'close-alert-' + coinDetails.id;
+        closeAlertElement.addEventListener('click', closeAlertModal);
+        closeAlertElement.innerHTML = '&times;';
+        alertModalContent.appendChild(closeAlertElement);
+
+        alertModal.appendChild(alertModalContent);
+        newCoinEntry.appendChild(alertModal);
+
         // Add coin quantity button
         let quantityButton = document.createElement('button');
         quantityButton.id = 'btn-' + coinDetails.id;
@@ -144,7 +190,7 @@ function createCoinOptionList(coinList) {
         let closeElement = document.createElement('span');
         closeElement.className = 'close';
         closeElement.id = 'close-' + coinDetails.id;
-        closeElement.addEventListener('click', closeModal);
+        closeElement.addEventListener('click', closeQuantityModal);
         closeElement.innerHTML = '&times;';
         coinModalContent.appendChild(closeElement);
 
@@ -167,7 +213,6 @@ function createCoinOptionList(coinList) {
         inputUserCoinAmount.addEventListener('input', editUserCoinAmount);
         modalText.appendChild(inputUserCoinAmount);
         coinModalContent.appendChild(modalText);
-
         coinModal.appendChild(coinModalContent);
         newCoinEntry.appendChild(coinModal);
 

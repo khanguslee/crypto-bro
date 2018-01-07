@@ -150,7 +150,7 @@ function createCoinOptionList(coinList) {
         // Create modal to set alert options
         let alertModal = document.createElement('div');
         alertModal.id = 'modal-alert-' + coinDetails.id;
-        alertModal.className = 'modal-main';
+        alertModal.className = 'modal-main alert';
         alertModal.style.display = 'none';
 
         let alertModalContent = document.createElement('div');
@@ -165,6 +165,43 @@ function createCoinOptionList(coinList) {
         closeAlertElement.innerHTML = '&times;';
         alertModalContent.appendChild(closeAlertElement);
 
+        // Add header to alert modal
+        let alertModalHeader = document.createElement('h1');
+        alertModalHeader.textContent = 'Set Alert for ' + coinDetails.name;
+        alertModalContent.appendChild(alertModalHeader);
+
+        // Add currency option
+        let alertCurrencySettings = document.createElement('p');
+        let alertCurrencySettingText = document.createTextNode('Currency: ');
+        alertCurrencySettings.appendChild(alertCurrencySettingText);
+        let alertCurrencySelection = document.createElement('select');
+        alertCurrencySelection.id = 'alert-currency-' + coinDetails.id;
+        let alertCurrencyOptions = ['BTC', 'USD'];   // TODO: Add more currency types later
+        let aertCurrencyOptionElement = '';
+        for (let i=0; i<alertCurrencyOptions.length; i++) {
+            aertCurrencyOptionElement += '<option>' + alertCurrencyOptions[i] + '</option>';
+        }
+        alertCurrencySelection.innerHTML = aertCurrencyOptionElement;
+        alertCurrencySettings.appendChild(alertCurrencySelection);
+        alertModalContent.appendChild(alertCurrencySettings);
+
+        // Add min-amount input
+        let alertMinAmount = document.createElement('p');
+        let alertMinAmountText = document.createTextNode('Minimum Amount: ');
+        alertMinAmount.appendChild(alertMinAmountText);
+        let alertMinAmountTextbox = document.createElement('input');
+        alertMinAmountTextbox.type = 'number';
+        alertMinAmount.appendChild(alertMinAmountTextbox)
+        alertModalContent.appendChild(alertMinAmount);
+
+        // Add max-amount input
+        let alertMaxAmount = document.createElement('p');
+        let alertMaxAmountText = document.createTextNode('Maximum Amount: ');
+        alertMaxAmount.appendChild(alertMaxAmountText);
+        let alertMaxAmountTextbox = document.createElement('input');
+        alertMaxAmountTextbox.type = 'number';
+        alertMaxAmount.appendChild(alertMaxAmountTextbox)
+        alertModalContent.appendChild(alertMaxAmount);
         alertModal.appendChild(alertModalContent);
         newCoinEntry.appendChild(alertModal);
 

@@ -78,6 +78,10 @@ body {
     width: 70%; 
 }
 
+.alert p {
+    display:table;
+}
+
 .close {
     color: #aaa;
     font-size: 28px;

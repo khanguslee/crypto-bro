@@ -17,7 +17,7 @@ To load the application, type in `chrome://extensions/` into the browser and che
 - [x] Option to show/hide other cryptocurrencys
 - [x] Input the amount of cryptocurrencys you own
 - [ ] Alert system
-    - [ ] Spike to learn how to make a modal
+    - [x] Spike to learn how to make a modal
     - [ ] Alert when below price
     - [ ] Alert when above price
 - [x] Currency conversion
@@ -29,6 +29,7 @@ To load the application, type in `chrome://extensions/` into the browser and che
 - [x] Add link to the coin's coinmarketcap page
 - [ ] Display prices in bitcoin
 - [ ] Edit quantity of a particular coin by clicking on the coin entry in the extension window
+- [ ] Add more currency types for alerting 
 
 ### Design
 - [x] Add green/red arrows to show if the coin increased/decreased in value

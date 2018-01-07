@@ -1,5 +1,9 @@
 var totalAmountHolding = 0, totalPrevAmountHolding = 0;
 document.addEventListener("DOMContentLoaded", () => {
+    // Update coin data everytime app is opened
+    let backgroundPage = chrome.extension.getBackgroundPage();
+    backgroundPage.updateCoinList();
+    // Display coin data 
     initialiseApp();
 });
 

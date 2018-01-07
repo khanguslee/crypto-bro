@@ -28,6 +28,7 @@ To load the application, type in `chrome://extensions/` into the browser and che
 - [x] Displayed entries in same order each time
 - [x] Add link to the coin's coinmarketcap page
 - [ ] Display prices in bitcoin
+- [ ] Edit quantity of a particular coin by clicking on the coin entry in the extension window
 
 ### Design
 - [x] Add green/red arrows to show if the coin increased/decreased in value

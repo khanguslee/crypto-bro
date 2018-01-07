@@ -53,8 +53,8 @@ function syncCheckboxes() {
     })
 }
 
-function syncTextboxes() {
-    // Set textboxes that user has already set
+function syncButtons() {
+    // Set button that user has already set
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"value": ''}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
         var coinList = result["coinOptions"];
@@ -62,10 +62,12 @@ function syncTextboxes() {
             let isChecked = coinList[key]['display'];
             userValue = coinList[key]['value'];
 
-            let coinTextbox = document.getElementById('tb-' + key);
-            // Show/Hide textbox is checkbox checked/unchecked
-            coinTextbox.style.display = isChecked ? 'inline' : 'none';
-            coinTextbox.value = userValue;
+            let coinButton = document.getElementById('btn-' + key);
+            // Show/Hide button if checkbox checked/unchecked
+            coinButton.style.display = isChecked ? 'inline' : 'none';
+
+            //let coinTextbox = document.getElementById('tb-' + key);
+            //coinTextbox.value = userValue;
         }
     })
 }
@@ -84,6 +86,18 @@ function editUserCoinAmount(event) {
             console.log("Coin value saved!");
         });
     });
+}
+
+function setCoinQuantity(event) {
+    let coinName = this.id.substr(4);
+    let modal = document.getElementById('modal-' + coinName);
+    modal.style.display = '';
+}
+
+function closeModal(event) {
+    let coinName = this.id.substr(6);
+    let modal = document.getElementById('modal-' + coinName);
+    modal.style.display = 'none';
 }
 
 function createCoinOptionList(coinList) {
@@ -108,14 +122,43 @@ function createCoinOptionList(coinList) {
         coinNameTextElement.appendChild(coinNameText);
         newCoinEntry.appendChild(coinNameTextElement);
 
-        // Add input box
+        // Add coin quantity button
+        let quantityButton = document.createElement('button');
+        quantityButton.id = 'btn-' + coinDetails.id;
+        quantityButton.className = 'coin-quantity-button';
+        quantityButton.textContent = 'Edit Quantity';
+        quantityButton.addEventListener('click', setCoinQuantity);
+        newCoinEntry.appendChild(quantityButton);
+
+        // Create modal to edit coin quantity
+        let coinModal = document.createElement('div');
+        coinModal.id = 'modal-' + coinDetails.id;
+        coinModal.className = 'modal-main';
+        coinModal.style.display = 'none';
+
+        let coinModalContent = document.createElement('div');
+        coinModalContent.id = 'modal-content' + coinDetails.id;
+        coinModalContent.className = 'modal-content';
+
+        // Add close button
+        let closeElement = document.createElement('span');
+        closeElement.className = 'close';
+        closeElement.id = 'close-' + coinDetails.id;
+        closeElement.addEventListener('click', closeModal);
+        closeElement.innerHTML = '&times;';
+        coinModalContent.appendChild(closeElement);
+
+        // Add input box to modal
         let inputUserCoinAmount = document.createElement('input');
         inputUserCoinAmount.type = 'number';
         inputUserCoinAmount.className = 'input-user-coin-amount';
         inputUserCoinAmount.id = 'tb-' + coinDetails.id;
         inputUserCoinAmount.placeholder = coinDetails.name + ' Quantity';
         inputUserCoinAmount.addEventListener('input', editUserCoinAmount);
-        newCoinEntry.appendChild(inputUserCoinAmount);
+        coinModalContent.appendChild(inputUserCoinAmount);
+
+        coinModal.appendChild(coinModalContent);
+        newCoinEntry.appendChild(coinModal);
 
         coinListElement.appendChild(newCoinEntry);     
     }
@@ -127,7 +170,7 @@ function displayAllCoins() {
         var coinList = storedList['coins'];
         createCoinOptionList(coinList);
         syncCheckboxes();
-        syncTextboxes();
+        syncButtons();
     });
 }
 
@@ -160,7 +203,7 @@ function displaySearch(event) {
         }
         createCoinOptionList(newCoinList);
         syncCheckboxes();
-        syncTextboxes();
+        syncButtons();
     })
 }
 
@@ -171,7 +214,7 @@ function updateList() {
     let coinName = this.id.substr(3);
     var coinList;
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
-    document.getElementById('tb-' + coinName).style.display = this.checked ? 'inline' : 'none';
+    document.getElementById('btn-' + coinName).style.display = this.checked ? 'inline' : 'none';
 
     chrome.storage.sync.get(defaultJsonValue, (result) => {
         coinList = result["coinOptions"];

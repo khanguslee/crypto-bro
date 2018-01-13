@@ -40,4 +40,5 @@ To load the application, type in `chrome://extensions/` into the browser and che
 - [x] Add green/red arrows to show if the coin increased/decreased in value
 - [x] Change percent change text to green/red if the coin increased/decreased in value
 - [ ] Night Mode
-- [ ] Logo for app
+- [x] Logo for app
+- [ ] Create banners for chrome extension web store

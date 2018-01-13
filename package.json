@@ -4,7 +4,7 @@
   "description": "Your bro for crypto",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jshint js/index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/khanguslee/crypto-bro/issues"
   },
-  "homepage": "https://github.com/khanguslee/crypto-bro#readme"
+  "homepage": "https://github.com/khanguslee/crypto-bro#readme",
+  "devDependencies": {
+    "jshint": "^2.9.5"
+  }
 }

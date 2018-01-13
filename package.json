@@ -4,7 +4,7 @@
   "description": "Your bro for crypto",
   "main": "index.js",
   "scripts": {
-    "test": "jshint js/index.js"
+    "test": "jshint js/"
   },
   "repository": {
     "type": "git",

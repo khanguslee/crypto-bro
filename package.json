@@ -1,0 +1,19 @@
+{
+  "name": "crypto-bro",
+  "version": "1.0.0",
+  "description": "Your bro for crypto",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khanguslee/crypto-bro.git"
+  },
+  "author": "khanguslee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khanguslee/crypto-bro/issues"
+  },
+  "homepage": "https://github.com/khanguslee/crypto-bro#readme"
+}

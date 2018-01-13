@@ -3,7 +3,9 @@
 
 A chrome extension to check the prices of cryptocurrency on [Coin Market Cap](https://coinmarketcap.com/). This extension aims to allow you to check on your cryptocurrency portfolio discretely at work.
 
-*Note: This application is still under development so it has not been released on the chrome app store yet.*
+Let me know if you would like to be a tester for this chrome extension.
+
+*Note: This application is still under development*
 
 ## Features
 - Display prices of various crypto-currencies
@@ -14,7 +16,7 @@ A chrome extension to check the prices of cryptocurrency on [Coin Market Cap](ht
 ## Getting Started
 To load the application, type in `chrome://extensions/` into the browser and check "Developer Mode". Click on "Load unpacked extension..." and select the folder of this repository. 
 
-## To Do:
+## To Do
 ### Functionality
 - [x] Option to show/hide other cryptocurrencys
 - [x] Input the amount of cryptocurrencys you own
@@ -32,6 +34,7 @@ To load the application, type in `chrome://extensions/` into the browser and che
 - [ ] Display prices in bitcoin
 - [ ] Edit quantity of a particular coin by clicking on the coin entry in the extension window
 - [ ] Add more currency types for alerting 
+- [ ] Let travisCI run tests on the code (Currently runs jshint on javascript code) 
 
 ### Design
 - [x] Add green/red arrows to show if the coin increased/decreased in value

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function updateCoin(currency, coin , coinAmount){
     chrome.storage.local.get({'coins':[]}, (storedList) => {
-        var coinList = storedList['coins'];
+        var coinList = storedList.coins;
         for (var i=0; i<coinList.length; i++) {
             if (coinList[i].id == coin)
             {
@@ -68,25 +68,25 @@ function updateCoin(currency, coin , coinAmount){
             document.getElementById("crypto-amount-text").innerHTML = totalAmountHolding.toFixed(2);
             let totalAmountPercent = (totalAmountHolding - totalPrevAmountHolding)/totalPrevAmountHolding;
             totalAmountPercent *= 100;
-            document.getElementById("crypto-amount-change").style.color = totalAmountPercent[0] === "-" ? "#e60000" : "#00e600"
+            document.getElementById("crypto-amount-change").style.color = totalAmountPercent[0] === "-" ? "#e60000" : "#00e600";
             document.getElementById("crypto-amount-change-text").innerHTML = totalAmountPercent.toFixed(2);
         }
-    })
+    });
 }
 
 function initialiseApp() {
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
     chrome.storage.sync.get(defaultJsonValue, (storedCoinList) => {
-        var coinList = storedCoinList['coinOptions'];
+        var coinList = storedCoinList.coinOptions;
         var cryptoDiv = document.getElementById('crypto-container');
 
         // Get currency to display
         chrome.storage.sync.get({"currency": "USD"}, (storedCurrency) => {
-            var selectedCurrency = storedCurrency["currency"];
+            var selectedCurrency = storedCurrency.currency;
 
             for (var coin in coinList) {
                 // Check if user has selected the coin
-                if (!coinList[coin]["display"]) {
+                if (!coinList[coin].display) {
                     continue;
                 }
                 /* Create the html elements */
@@ -143,14 +143,14 @@ function initialiseApp() {
 
                 /* Update the prices and details for each coin */
                 if ('value' in coinList[coin] & coinList[coin] != 0) {
-                    updateCoin(selectedCurrency, coin, parseFloat(coinList[coin]['value']));
+                    updateCoin(selectedCurrency, coin, parseFloat(coinList[coin].value));
                 } else {
                     updateCoin(selectedCurrency, coin, 0);
                 }
                 cryptoEntry.appendChild(cryptoSecondaryDiv);
                 cryptoDiv.appendChild(cryptoEntry);
             }
-        })
+        });
     });
     
 

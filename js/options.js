@@ -204,7 +204,7 @@ function createCoinOptionList(coinList) {
         alertMinAmount.appendChild(alertMinAmountText);
         let alertMinAmountTextbox = document.createElement('input');
         alertMinAmountTextbox.type = 'number';
-        alertMinAmount.appendChild(alertMinAmountTextbox)
+        alertMinAmount.appendChild(alertMinAmountTextbox);
         alertModalContent.appendChild(alertMinAmount);
 
         // Add max-amount input
@@ -213,7 +213,7 @@ function createCoinOptionList(coinList) {
         alertMaxAmount.appendChild(alertMaxAmountText);
         let alertMaxAmountTextbox = document.createElement('input');
         alertMaxAmountTextbox.type = 'number';
-        alertMaxAmount.appendChild(alertMaxAmountTextbox)
+        alertMaxAmount.appendChild(alertMaxAmountTextbox);
         alertModalContent.appendChild(alertMaxAmount);
         alertModal.appendChild(alertModalContent);
         newCoinEntry.appendChild(alertModal);

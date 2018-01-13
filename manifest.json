@@ -8,7 +8,12 @@
     ],
     "browser_action" : {
         "default_popup" : "html/index.html",
-        "default_title" : "Crypto Bro"
+        "default_title" : "Crypto Bro",
+        "default_icon": "icon_128.png"
+    },
+    "icons": {
+        "48": "icon_48.png",
+        "128": "icon_128.png"
     },
     "background" : {
         "scripts" : ["js/background.js"]

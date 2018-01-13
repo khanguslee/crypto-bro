@@ -48,7 +48,11 @@ function syncCheckboxes() {
         var coinList = result["coinOptions"];
         for (var key in coinList) {
             let isChecked = coinList[key]['display'];
-            document.getElementById("cb-" + key).checked = isChecked;
+            let coinCheckbox = document.getElementById("cb-" + key);
+            if (coinCheckbox != null)
+            {
+                coinCheckbox.checked = isChecked;
+            }
         }
     })
 }
@@ -64,13 +68,21 @@ function syncButtons() {
 
             // Show/Hide buttons if checkbox checked/unchecked
             let coinButton = document.getElementById('btn-' + key);
-            coinButton.style.display = isChecked ? 'inline' : 'none';
+            if (coinButton != null)
+            {
+                coinButton.style.display = isChecked ? 'inline' : 'none';
+            }
             let alertButton = document.getElementById('alert-' + key);
-            alertButton.style.display = isChecked ? 'inline' : 'none';
+            if (alertButton != null)
+            {
+                alertButton.style.display = isChecked ? 'inline' : 'none';
 
+            }
             // Set textbox value to stored value
             let coinTextbox = document.getElementById('tb-' + key);
-            coinTextbox.value = userValue;
+            if (coinTextbox != null) {
+                coinTextbox.value = userValue;
+            }
         }
     })
 } 

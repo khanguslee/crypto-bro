@@ -19,8 +19,8 @@ function displayCurrencyOption() {
     // Display user selected currency
     var currencyOption = "";
     chrome.storage.sync.get({"currency": "USD"}, (result) => {
-        var defaultCurrency = result["currency"];
-        for (index in currencyList) {
+        var defaultCurrency = result.currency;
+        for (var index in currencyList) {
             if (currencyList[index] == defaultCurrency) {
                 currencyOption += "<option selected='selected'>" + currencyList[index] + "</option>";
             } else {
@@ -28,8 +28,9 @@ function displayCurrencyOption() {
             }
         }
         selectCurrencyElement.innerHTML = currencyOption;
-        selectCurrencyElement.selectedIndex
-    })
+        // TODO: What is this for??
+        //selectCurrencyElement.selectedIndex
+    });
 }
 
 function changeCurrency(selectedCurrency) {
@@ -45,22 +46,22 @@ function syncCheckboxes() {
     // Tick checkboxes that user has already set
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
-        var coinList = result["coinOptions"];
+        var coinList = result.coinOptions;
         for (var key in coinList) {
-            let isChecked = coinList[key]['display'];
+            let isChecked = coinList[key].display;
             document.getElementById("cb-" + key).checked = isChecked;
         }
-    })
+    });
 }
 
 function syncButtons() {
     // Set button that user has already set
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"value": ''}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
-        var coinList = result["coinOptions"];
+        var coinList = result.coinOptions;
         for (var key in coinList) {
-            let isChecked = coinList[key]['display'];
-            userValue = coinList[key]['value'];
+            let isChecked = coinList[key].display;
+            userValue = coinList[key].value;
 
             let coinButton = document.getElementById('btn-' + key);
             // Show/Hide button if checkbox checked/unchecked
@@ -69,19 +70,19 @@ function syncButtons() {
             let coinTextbox = document.getElementById('tb-' + key);
             coinTextbox.value = userValue;
         }
-    })
+    });
 }
 
 function editUserCoinAmount(event) {
     // Updates amount of coins user has of the chosen coin
-    var userInputCoinAmount = this.valueAsNumber
+    var userInputCoinAmount = this.valueAsNumber;
     var coinName = this.id.substr(3);
     var coinList;
 
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
-        coinList = result["coinOptions"];
-        coinList[coinName]['value'] = userInputCoinAmount;
+        coinList = result.coinOptions;
+        coinList[coinName].value = userInputCoinAmount;
         chrome.storage.sync.set({'coinOptions': coinList}, () => {
             console.log("Coin value saved!");
         });
@@ -101,8 +102,8 @@ function closeModal(event) {
 }
 
 function createCoinOptionList(coinList) {
-    let coinListElement = document.getElementById('coin-option-list')
-    coinListElement.innerHTML = ''
+    let coinListElement = document.getElementById('coin-option-list');
+    coinListElement.innerHTML = '';
     for (let i=0; i<coinList.length; i++)
     {
         let coinDetails = coinList[i];
@@ -118,7 +119,7 @@ function createCoinOptionList(coinList) {
 
         // Add coin name text
         let coinNameTextElement = document.createElement('p');
-        let coinNameText = document.createTextNode(coinDetails.name)
+        let coinNameText = document.createTextNode(coinDetails.name);
         coinNameTextElement.appendChild(coinNameText);
         newCoinEntry.appendChild(coinNameTextElement);
 
@@ -178,7 +179,7 @@ function createCoinOptionList(coinList) {
 function displayAllCoins() {
     // Display all available crypto currency coins available from coinmarketcap
     chrome.storage.local.get({'coins':[]}, (storedList) => {
-        var coinList = storedList['coins'];
+        var coinList = storedList.coins;
         createCoinOptionList(coinList);
         syncCheckboxes();
         syncButtons();
@@ -188,7 +189,7 @@ function displayAllCoins() {
 function displaySearch(event) {
     // Display search results
     chrome.storage.local.get({'coins':[]}, (storedList) => {
-        var coinList = storedList['coins'];
+        var coinList = storedList.coins;
         var newCoinList = [];
 
         // Find coin symbol and id with the given search text
@@ -206,8 +207,8 @@ function displaySearch(event) {
         }
 
         // Empty existing list
-        let coinListElement = document.getElementById('coin-option-list')
-        coinListElement.innerHTML = ''
+        let coinListElement = document.getElementById('coin-option-list');
+        coinListElement.innerHTML = '';
         if(newCoinList.length <= 0) {
             coinListElement.innerHTML = 'No Results Found';
             return;
@@ -215,7 +216,7 @@ function displaySearch(event) {
         createCoinOptionList(newCoinList);
         syncCheckboxes();
         syncButtons();
-    })
+    });
 }
 
 function updateList() {
@@ -228,12 +229,12 @@ function updateList() {
     document.getElementById('btn-' + coinName).style.display = this.checked ? 'inline' : 'none';
 
     chrome.storage.sync.get(defaultJsonValue, (result) => {
-        coinList = result["coinOptions"];
+        coinList = result.coinOptions;
 
         if (!(coinName in coinList)) {
             coinList[coinName] = {};
         }
-        coinList[coinName]['display'] = this.checked ? true : false;
+        coinList[coinName].display = this.checked ? true : false;
         chrome.storage.sync.set({
             'coinOptions' : coinList
         }, () => {

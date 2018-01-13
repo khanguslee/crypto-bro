@@ -1,5 +1,7 @@
 # Crypto Bro
-[![Build Status](https://travis-ci.org/khanguslee/crypto-bro.svg?branch=khanguslee%2FtravisCI)](https://travis-ci.org/khanguslee/crypto-bro)
+**Master:** [![Build Status](https://travis-ci.org/khanguslee/crypto-bro.svg?branch=khanguslee%2FtravisCI)](https://travis-ci.org/khanguslee/crypto-bro)
+
+**Develop:** [![Build Status](https://travis-ci.org/khanguslee/crypto-bro.svg?branch=khanguslee%2Fdevelop)](https://travis-ci.org/khanguslee/crypto-bro)
 
 A chrome extension to check the prices of cryptocurrency on [Coin Market Cap](https://coinmarketcap.com/). This extension aims to allow you to check on your cryptocurrency portfolio discretely at work.
 

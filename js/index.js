@@ -80,7 +80,7 @@ function updateCoin(currency, coin , coinAmount){
             totalAmountPercent *= 100;
             let portfolioChangeElement = document.getElementById('crypto-amount-change');
             // Change colour to red or green
-            portfolioChangeElement.style.color = totalAmountPercent < 0 ? "#e60000" : "#00e600"
+            portfolioChangeElement.style.color = totalAmountPercent < 0 ? "#e60000" : "#00e600";
             // Add arrow icon
             let portfolioChangeTextElement = document.getElementById("crypto-amount-change-text");
 

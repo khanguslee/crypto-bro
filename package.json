@@ -1,0 +1,22 @@
+{
+  "name": "crypto-bro",
+  "version": "1.0.0",
+  "description": "Your bro for crypto",
+  "main": "index.js",
+  "scripts": {
+    "test": "jshint js/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khanguslee/crypto-bro.git"
+  },
+  "author": "khanguslee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khanguslee/crypto-bro/issues"
+  },
+  "homepage": "https://github.com/khanguslee/crypto-bro#readme",
+  "devDependencies": {
+    "jshint": "^2.9.5"
+  }
+}

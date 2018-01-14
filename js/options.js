@@ -264,6 +264,7 @@ function createCoinOptionList(coinList) {
         modalText.appendChild(inputUserCoinAmount);
         coinModalContent.appendChild(modalText);
         coinModal.appendChild(coinModalContent);
+        
         newCoinEntry.appendChild(coinModal);
 
         coinListElement.appendChild(newCoinEntry);     

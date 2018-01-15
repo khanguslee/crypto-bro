@@ -83,7 +83,7 @@ body {
     display: none;
 }
 
-#saveAlertButton, #saveQuantityButton {
+#saveAlertButton, #saveQuantityButton, #deleteAlertButton{
     float: right;
 }
 

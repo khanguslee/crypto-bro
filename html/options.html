@@ -25,9 +25,44 @@
                 <h1>Select coins to show:</h1>
                 <input type="text" id="crypto-search-bar" placeholder="Search Coin">
         </div>
-        <ul id="coin-option-list" >
+        <div>
+            <div class="modal-main alert" id="alertModal">
+                <div class="modal-content">
+                    <span class="close" id="closeAlertModal">&times;</span>
+                    <h1>Set Alert for <span id="alertCoinName"></span></h1>
+                    <p>
+                        Currency:
+                        <select>
+                            <option>BTC</option>
+                            <option>USD</option>
+                        </select>
+                    </p>
+                    <p>
+                        Minimum Amount: 
+                        <input type="number">
+                    </p>
+                    <p>
+                        Maximum Amount: 
+                        <input type="number">
+                    </p>
+                    <input type="button" id="saveAlertButton" value="Save">
+                </div>
+            </div>
 
-        </ul>
+            <div class="modal-main" id="quantityModal">
+                    <div class="modal-content">
+                        <span class="close" id="closeQuantityModal">&times;</span>
+                        <h1>Edit <span id="quantityCoinName"></span> Quantity</h1>
+                        <p>
+                            Quantity:
+                            <input type="number" id="input-user-coin-amount">
+                        </p>
+                        <input type="button" id="saveQuantityButton" value="Save">
+                    </div>
+                </div>
+            <ul id="coin-option-list" >
+            </ul>
+        </div>
     </div>
 
 </body>

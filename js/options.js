@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    
     displayCurrencyOption();
     displayAllCoins();
     enableSearchBar();
@@ -79,52 +80,91 @@ function syncButtons() {
                 alertButton.style.display = isChecked ? 'inline' : 'none';
 
             }
-            // Set textbox value to stored value
-            let coinTextbox = document.getElementById('tb-' + key);
-            if (coinTextbox != null) {
-                coinTextbox.value = userValue;
-            }
         }
     });
 }
 
-function editUserCoinAmount(event) {
+function editUserCoinAmount(coinID) {
+    console.log(coinID);
     // Updates amount of coins user has of the chosen coin
-    var userInputCoinAmount = this.valueAsNumber;
-    var coinName = this.id.substr(3);
+    let inputQuantityElement = document.getElementById('input-user-coin-amount');
+    var userInputCoinAmount = inputQuantityElement.value;
 
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
         coinList = result.coinOptions;
-        coinList[coinName].value = userInputCoinAmount;
+        if (coinList[coinID] == null) {
+            coinList[coinID] = {};
+        }
+        coinList[coinID].value = userInputCoinAmount;
         chrome.storage.sync.set({'coinOptions': coinList}, () => {
             console.log("Coin value saved!");
         });
+        closeQuantityModal();
     });
 }
 
-function setCoinQuantity(event) {
-    let coinName = this.id.substr(4);
-    let modal = document.getElementById('modal-' + coinName);
-    modal.style.display = '';
+
+function setCoinQuantity(coinID, coinName) {
+    /*
+        Handler for Edit Quantity button
+    */
+    const defaultJsonValue = {'coinOptions':{'bitcoin': {"value": ''}}};
+    var coinValue = 0;
+    chrome.storage.sync.get(defaultJsonValue, (result) => {
+        let coinList = result.coinOptions;
+        for (var key in coinList) {
+            if (key == coinID) {
+                console.log(key);
+                coinValue = "value" in coinList[key] ? coinList[key].value : 0;
+            }
+        }
+        let coinNameSpan = document.getElementById('quantityCoinName');
+        coinNameSpan.innerHTML = coinName;
+        let inputCoinAmount = document.getElementById('input-user-coin-amount');
+        inputCoinAmount.placeholder = coinName + ' Quantity';
+        inputCoinAmount.value = coinValue ? coinValue : '';
+
+        // Clone node to remove previous event listeners
+        let saveQuantityButton = document.getElementById('saveQuantityButton');
+        let newSaveButton = saveQuantityButton.cloneNode(true);
+        newSaveButton.addEventListener('click', () => {editUserCoinAmount(coinID)});
+        saveQuantityButton.parentNode.replaceChild(newSaveButton, saveQuantityButton);
+    
+        let modal = document.getElementById('quantityModal');
+        modal.style.display = 'block';
+    });
 }
 
-function closeAlertModal(event) {
-    let coinName = this.id.substr(12);  // Removes modal-alert-
-    let modal = document.getElementById('modal-alert-' + coinName);
-    modal.style.display = 'none';
+function alertCoin(coinID, coinName) {
+    /*
+        Handler for Alert Button
+    */
+    let coinNameSpan = document.getElementById('alertCoinName');
+    coinNameSpan.innerHTML = coinName;
+
+    // Clone node to remove previous event listeners
+    let saveAlertButton = document.getElementById('saveAlertButton');
+    let newSaveButton = saveAlertButton.cloneNode(true);
+    newSaveButton.addEventListener('click', () => {saveAlert(coinID)})
+    saveAlertButton.parentNode.replaceChild(newSaveButton, saveAlertButton);
+
+    let modal = document.getElementById('alertModal');
+    modal.style.display = 'block';
+}
+
+function saveAlert(coinID) {
+    console.log(coinID);
 }
 
 function closeQuantityModal(event) {
-    let coinName = this.id.substr(6);
-    let modal = document.getElementById('modal-' + coinName);
+    let modal = document.getElementById('quantityModal');
     modal.style.display = 'none';
 }
 
-function alertCoin(event) {
-    let coinName = this.id.substr(6);
-    let modal = document.getElementById('modal-alert-' + coinName);
-    modal.style.display = '';
+function closeAlertModal(event) {
+    let modal = document.getElementById('alertModal');
+    modal.style.display = 'none';
 }
 
 function createCoinOptionList(coinList) {
@@ -136,6 +176,7 @@ function createCoinOptionList(coinList) {
         let newCoinEntry = document.createElement('li');
         newCoinEntry.className = 'coin-entry';
         newCoinEntry.id = coinDetails.symbol + '-' + coinDetails.id;
+
         // Add check box
         let checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -153,119 +194,31 @@ function createCoinOptionList(coinList) {
         let alertButton = document.createElement('button');
         alertButton.id = 'alert-' + coinDetails.id;
         alertButton.className = 'alert-button';
-        alertButton.addEventListener('click', alertCoin);
+        let alertText = document.createTextNode('Alert');
+        alertButton.appendChild(alertText);
+        alertButton.addEventListener('click', () => {alertCoin(coinDetails.id, coinDetails.name)});
+        newCoinEntry.appendChild(alertButton);
+
+        /*
         // Add Alert icon
         let alertIcon = document.createElement('i');
         alertIcon.className = 'far fa-bell';
         alertButton.appendChild(alertIcon);
         newCoinEntry.appendChild(alertButton);
-
-        // Create modal to set alert options
-        let alertModal = document.createElement('div');
-        alertModal.id = 'modal-alert-' + coinDetails.id;
-        alertModal.className = 'modal-main alert';
-        alertModal.style.display = 'none';
-
-        let alertModalContent = document.createElement('div');
-        alertModalContent.id = 'modal-alert-content-' + coinDetails.id;
-        alertModalContent.className = 'modal-content';
-
-        // Add close button
-        let closeAlertElement = document.createElement('span');
-        closeAlertElement.className = 'close';
-        closeAlertElement.id = 'close-alert-' + coinDetails.id;
-        closeAlertElement.addEventListener('click', closeAlertModal);
-        closeAlertElement.innerHTML = '&times;';
-        alertModalContent.appendChild(closeAlertElement);
-
-        // Add header to alert modal
-        let alertModalHeader = document.createElement('h1');
-        alertModalHeader.textContent = 'Set Alert for ' + coinDetails.name;
-        alertModalContent.appendChild(alertModalHeader);
-
-        // Add currency option
-        let alertCurrencySettings = document.createElement('p');
-        let alertCurrencySettingText = document.createTextNode('Currency: ');
-        alertCurrencySettings.appendChild(alertCurrencySettingText);
-        let alertCurrencySelection = document.createElement('select');
-        alertCurrencySelection.id = 'alert-currency-' + coinDetails.id;
-        let alertCurrencyOptions = ['BTC', 'USD'];   // TODO: Add more currency types later
-        let aertCurrencyOptionElement = '';
-        for (let i=0; i<alertCurrencyOptions.length; i++) {
-            aertCurrencyOptionElement += '<option>' + alertCurrencyOptions[i] + '</option>';
-        }
-        alertCurrencySelection.innerHTML = aertCurrencyOptionElement;
-        alertCurrencySettings.appendChild(alertCurrencySelection);
-        alertModalContent.appendChild(alertCurrencySettings);
-
-        // Add min-amount input
-        let alertMinAmount = document.createElement('p');
-        let alertMinAmountText = document.createTextNode('Minimum Amount: ');
-        alertMinAmount.appendChild(alertMinAmountText);
-        let alertMinAmountTextbox = document.createElement('input');
-        alertMinAmountTextbox.type = 'number';
-        alertMinAmount.appendChild(alertMinAmountTextbox);
-        alertModalContent.appendChild(alertMinAmount);
-
-        // Add max-amount input
-        let alertMaxAmount = document.createElement('p');
-        let alertMaxAmountText = document.createTextNode('Maximum Amount: ');
-        alertMaxAmount.appendChild(alertMaxAmountText);
-        let alertMaxAmountTextbox = document.createElement('input');
-        alertMaxAmountTextbox.type = 'number';
-        alertMaxAmount.appendChild(alertMaxAmountTextbox);
-        alertModalContent.appendChild(alertMaxAmount);
-        alertModal.appendChild(alertModalContent);
-        newCoinEntry.appendChild(alertModal);
+        */
+        let closeAlertModalButton = document.getElementById('closeAlertModal');
+        closeAlertModalButton.addEventListener('click', closeAlertModal);
 
         // Add coin quantity button
         let quantityButton = document.createElement('button');
         quantityButton.id = 'btn-' + coinDetails.id;
         quantityButton.className = 'coin-quantity-button';
         quantityButton.textContent = 'Edit Quantity';
-        quantityButton.addEventListener('click', setCoinQuantity);
+        quantityButton.addEventListener('click', () => {setCoinQuantity(coinDetails.id, coinDetails.name)});
         newCoinEntry.appendChild(quantityButton);
-
-        // Create modal to edit coin quantity
-        let coinModal = document.createElement('div');
-        coinModal.id = 'modal-' + coinDetails.id;
-        coinModal.className = 'modal-main';
-        coinModal.style.display = 'none';
-
-        let coinModalContent = document.createElement('div');
-        coinModalContent.id = 'modal-content' + coinDetails.id;
-        coinModalContent.className = 'modal-content';
-
-        // Add close button
-        let closeElement = document.createElement('span');
-        closeElement.className = 'close';
-        closeElement.id = 'close-' + coinDetails.id;
-        closeElement.addEventListener('click', closeQuantityModal);
-        closeElement.innerHTML = '&times;';
-        coinModalContent.appendChild(closeElement);
-
-        // Add header to modal
-        let modalHeader = document.createElement('h1');
-        modalHeader.textContent = 'Edit ' + coinDetails.name + ' Quantity';
-        coinModalContent.appendChild(modalHeader);
-
-        // Add Quantity Text to modal
-        let modalText = document.createElement('p');
-        let modalTextValue = document.createTextNode('Quantity: ');
-        modalText.appendChild(modalTextValue);
-
-        // Add input box to modal after quantity text
-        let inputUserCoinAmount = document.createElement('input');
-        inputUserCoinAmount.type = 'number';
-        inputUserCoinAmount.className = 'input-user-coin-amount';
-        inputUserCoinAmount.id = 'tb-' + coinDetails.id;
-        inputUserCoinAmount.placeholder = coinDetails.name + ' Quantity';
-        inputUserCoinAmount.addEventListener('input', editUserCoinAmount);
-        modalText.appendChild(inputUserCoinAmount);
-        coinModalContent.appendChild(modalText);
-        coinModal.appendChild(coinModalContent);
         
-        newCoinEntry.appendChild(coinModal);
+        let closeQuantityModalButton = document.getElementById('closeQuantityModal');
+        closeQuantityModalButton.addEventListener('click', closeQuantityModal)
 
         coinListElement.appendChild(newCoinEntry);     
     }

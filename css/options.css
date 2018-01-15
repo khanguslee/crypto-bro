@@ -43,10 +43,6 @@ body {
     display: none;
 }
 
-.coin-entry .input-user-coin-amount{
-
-}
-
 .coin-entry .alert-button {
     display: none;
     margin-left: 5px;
@@ -71,6 +67,7 @@ body {
 }
 
 .modal-content {
+    overflow: hidden;
     background-color: #fefefe;
     margin: 20% auto;
     padding: 20px;
@@ -78,8 +75,20 @@ body {
     width: 70%; 
 }
 
+#alertModal {
+    display: none;
+}
+
+#quantityModal {
+    display: none;
+}
+
+#saveAlertButton, #saveQuantityButton {
+    float: right;
+}
+
 .alert p {
-    display:table;
+    display: table;
 }
 
 .close {

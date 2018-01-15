@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function updateCoin(currency, coin , coinAmount){
     chrome.storage.local.get({'coins':[]}, (storedList) => {
         var coinList = storedList.coins;
+        // Find the index of the coin within the stored coin list
         for (var i=0; i<coinList.length; i++) {
             if (coinList[i].id == coin)
             {

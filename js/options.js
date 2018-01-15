@@ -262,7 +262,7 @@ function displaySearch(event) {
         }
         createCoinOptionList(newCoinList);
         syncCheckboxes();
-        syncButons();
+        syncButtons();
     });
 }
 

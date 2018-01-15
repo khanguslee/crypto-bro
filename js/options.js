@@ -85,7 +85,6 @@ function syncButtons() {
 }
 
 function editUserCoinAmount(coinID) {
-    console.log(coinID);
     // Updates amount of coins user has of the chosen coin
     let inputQuantityElement = document.getElementById('input-user-coin-amount');
     var userInputCoinAmount = inputQuantityElement.value;
@@ -263,7 +262,7 @@ function displaySearch(event) {
         }
         createCoinOptionList(newCoinList);
         syncCheckboxes();
-        syncButtons();
+        syncButons();
     });
 }
 
@@ -275,7 +274,7 @@ function updateList() {
     var coinList;
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
     document.getElementById('btn-' + coinName).style.display = this.checked ? 'inline' : 'none';
-
+    document.getElementById('alert-' + coinName).style.display = this.checked ? 'inline' : 'none';
     chrome.storage.sync.get(defaultJsonValue, (result) => {
         coinList = result.coinOptions;
 

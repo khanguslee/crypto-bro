@@ -87,6 +87,15 @@ body {
     float: right;
 }
 
+.invalid-input {
+    border-color: red !important;
+}
+
+#emptyDataText {
+    color: red;
+    display: none;
+}
+
 .alert p {
     display: table;
 }

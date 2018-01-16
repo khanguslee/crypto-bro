@@ -29,8 +29,6 @@ function displayCurrencyOption() {
             }
         }
         selectCurrencyElement.innerHTML = currencyOption;
-        // TODO: What is this for??
-        //selectCurrencyElement.selectedIndex
     });
 }
 
@@ -126,7 +124,7 @@ function setCoinQuantity(coinID, coinName) {
         // Clone node to remove previous event listeners
         let saveQuantityButton = document.getElementById('saveQuantityButton');
         let newSaveButton = saveQuantityButton.cloneNode(true);
-        newSaveButton.addEventListener('click', () => {editUserCoinAmount(coinID)});
+        newSaveButton.addEventListener('click', () => {editUserCoinAmount(coinID);});
         saveQuantityButton.parentNode.replaceChild(newSaveButton, saveQuantityButton);
     
         let modal = document.getElementById('quantityModal');
@@ -157,12 +155,12 @@ function alertCoin(coinID, coinName) {
         // Clone node to remove previous event listeners
         let saveAlertButton = document.getElementById('saveAlertButton');
         let newSaveButton = saveAlertButton.cloneNode(true);
-        newSaveButton.addEventListener('click', () => {saveAlert(coinID)})
+        newSaveButton.addEventListener('click', () => {saveAlert(coinID);});
         saveAlertButton.parentNode.replaceChild(newSaveButton, saveAlertButton);
 
         let deleteAlertButton = document.getElementById('deleteAlertButton');
         let newDeleteButton = deleteAlertButton.cloneNode(true);
-        newDeleteButton.addEventListener('click', () => {deleteAlert(coinID)});
+        newDeleteButton.addEventListener('click', () => {deleteAlert(coinID);});
         deleteAlertButton.parentNode.replaceChild(newDeleteButton, deleteAlertButton);
 
         let modal = document.getElementById('alertModal');
@@ -177,15 +175,22 @@ function saveAlert(coinID) {
     let currencyType = document.getElementById('alertCurrency').value;
     let minAmount = document.getElementById('alertMinAmount').value;
     let maxAmount = document.getElementById('alertMaxAmount').value;
+    // Validation
+    // Check if user has given values into the text boxes before saving
     if (minAmount == '' && maxAmount == '') {
+        document.getElementById('alertMinAmount').className = 'invalid-input';
+        document.getElementById('alertMaxAmount').className = 'invalid-input';
+        document.getElementById('emptyDataText').style.display = 'inline';
         return;
     }
+    // If user supplies both minAmount and maxAmount, check if minAmount is less than maxAmount
     else if (minAmount != '' && maxAmount != '')
     {
         if (minAmount > maxAmount) {
             return;
         }
     }
+    // Otherwise, save alert values
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"alert": {}}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
         let coinList = result.coinOptions;
@@ -198,7 +203,7 @@ function saveAlert(coinID) {
             console.log("Alert saved!");
         });
         closeAlertModal();
-    })
+    });
 }
 
 function deleteAlert(coinID) {
@@ -217,7 +222,13 @@ function deleteAlert(coinID) {
         });
         closeAlertModal();
     });
+}
 
+function resetAlertElements() {
+    // Reset Alert modal elements
+    document.getElementById('alertMinAmount').className = '';
+    document.getElementById('alertMaxAmount').className = '';
+    document.getElementById('emptyDataText').style.display = 'none';
 }
 
 function closeQuantityModal(event) {
@@ -228,6 +239,7 @@ function closeQuantityModal(event) {
 function closeAlertModal(event) {
     let modal = document.getElementById('alertModal');
     modal.style.display = 'none';
+    resetAlertElements();
 }
 
 function createCoinOptionList(coinList) {
@@ -259,7 +271,7 @@ function createCoinOptionList(coinList) {
         alertButton.className = 'alert-button';
         let alertText = document.createTextNode('Alert');
         alertButton.appendChild(alertText);
-        alertButton.addEventListener('click', () => {alertCoin(coinDetails.id, coinDetails.name)});
+        alertButton.addEventListener('click', () => {alertCoin(coinDetails.id, coinDetails.name);});
         newCoinEntry.appendChild(alertButton);
 
         /*
@@ -277,11 +289,11 @@ function createCoinOptionList(coinList) {
         quantityButton.id = 'btn-' + coinDetails.id;
         quantityButton.className = 'coin-quantity-button';
         quantityButton.textContent = 'Edit Quantity';
-        quantityButton.addEventListener('click', () => {setCoinQuantity(coinDetails.id, coinDetails.name)});
+        quantityButton.addEventListener('click', () => {setCoinQuantity(coinDetails.id, coinDetails.name);});
         newCoinEntry.appendChild(quantityButton);
         
         let closeQuantityModalButton = document.getElementById('closeQuantityModal');
-        closeQuantityModalButton.addEventListener('click', closeQuantityModal)
+        closeQuantityModalButton.addEventListener('click', closeQuantityModal);
 
         coinListElement.appendChild(newCoinEntry);     
     }

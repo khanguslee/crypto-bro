@@ -19,7 +19,7 @@ function updateCoinList() {
             chrome.storage.local.set({'coins': data});
         })
         .catch((error) => {
-            console.log(error);
+            console.error(error);
         });  
     });
 }

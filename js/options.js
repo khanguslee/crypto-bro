@@ -5,8 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     enableSearchBar();
 });
 
-const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
-
 function displayCurrencyOption() {
     // Displays list of valid currencies that can be displayed
     let selectCurrencyElement = document.getElementById("currency-option-list");
@@ -64,8 +62,6 @@ function syncButtons() {
         var coinList = result.coinOptions;
         for (var key in coinList) {
             let isChecked = coinList[key].display;
-            userValue = coinList[key].value;
-
             // Show/Hide buttons if checkbox checked/unchecked
             let coinButton = document.getElementById('btn-' + key);
             if (coinButton != null)
@@ -89,7 +85,7 @@ function editUserCoinAmount(coinID) {
 
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"display": true}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
-        coinList = result.coinOptions;
+        let coinList = result.coinOptions;
         if (coinList[coinID] == null) {
             coinList[coinID] = {};
         }
@@ -231,16 +227,17 @@ function resetAlertElements() {
     document.getElementById('emptyDataText').style.display = 'none';
 }
 
-function closeQuantityModal(event) {
+function closeQuantityModal() {
     let modal = document.getElementById('quantityModal');
     modal.style.display = 'none';
 }
 
-function closeAlertModal(event) {
+function closeAlertModal() {
     let modal = document.getElementById('alertModal');
     modal.style.display = 'none';
     resetAlertElements();
 }
+
 
 function createCoinOptionList(coinList) {
     let coinListElement = document.getElementById('coin-option-list');
@@ -309,7 +306,7 @@ function displayAllCoins() {
     });
 }
 
-function displaySearch(event) {
+function displaySearch() {
     // Display search results
     chrome.storage.local.get({'coins':[]}, (storedList) => {
         var coinList = storedList.coins;

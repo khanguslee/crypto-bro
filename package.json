@@ -4,7 +4,7 @@
   "description": "Your bro for crypto",
   "main": "index.js",
   "scripts": {
-    "test": "jshint js/"
+    "test": "eslint js/"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/khanguslee/crypto-bro#readme",
   "devDependencies": {
+    "eslint": "^4.15.0",
+    "eslint-config-google": "^0.9.1",
     "jshint": "^2.9.5"
   }
 }

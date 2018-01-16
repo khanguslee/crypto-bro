@@ -55,12 +55,12 @@ function checkAlerts() {
                     let priceString = 'price_' + coinCurrency.toLowerCase();
                     let currentCoinPrice = coinValueList[coin][priceString];
 
-                    if (currentCoinPrice < coinMinAmount) {
-                        // Notify user
+                    if (coinMinAmount != '' && currentCoinPrice < coinMinAmount) {
+                        chrome.notifications.create("minimum-amount-reached", {type: 'basic', iconUrl: '../icon_128.png', title: 'Alert', message: 'Minimum amount reached.'});
                     }
 
-                    if (currentCoinPrice > coinMaxAmount) {
-                        // Notify user
+                    if (coinMaxAmount != '' &&currentCoinPrice > coinMaxAmount) {
+                        chrome.notifications.create("maximum-amount-reached", {type: 'basic', iconUrl: '../icon_128.png', title: 'Alert', message: 'Maximum amount reached.'});
                     }
 
                 }
@@ -72,4 +72,4 @@ function checkAlerts() {
 setInterval(() => {
     updateCoinList();
     checkAlerts();
-}, 3000);
+}, 10000);

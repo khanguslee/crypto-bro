@@ -20,10 +20,10 @@ To load the application, type in `chrome://extensions/` into the browser and che
 ### Functionality
 - [x] Option to show/hide other cryptocurrencys
 - [x] Input the amount of cryptocurrencys you own
-- [ ] Alert system
+- [x] Alert system
     - [x] Spike to learn how to make a modal
-    - [ ] Alert when below price
-    - [ ] Alert when above price
+    - [x] Alert when below price
+    - [x] Alert when above price
 - [x] Currency conversion
 - [x] Search bar in the options menu
 - [ ] Use jquery to cut down on code (Next major version)

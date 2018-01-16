@@ -188,7 +188,7 @@ function saveAlert(coinID) {
     // If user supplies both minAmount and maxAmount, check if minAmount is less than maxAmount
     else if (minAmount != '' && maxAmount != '')
     {
-        if (parseInt(minAmount) > parseInt(maxAmount)) {
+        if (parseInt(minAmount, 10) > parseInt(maxAmount, 10)) {
             document.getElementById('alertMinAmount').className = 'invalid-input';
             document.getElementById('alertMaxAmount').className = 'invalid-input';
             document.getElementById('invalidDataText').style.display = 'inline';

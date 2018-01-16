@@ -49,7 +49,8 @@ function checkAlerts() {
                     if (coinOptions.alert == "" || coinOptions.alert == {}) {
                         continue;
                     }
-                    let coinCurrency = coinOptions.alert.currency;  // Either USD or BTC
+                    // Either USD or BTC
+                    let coinCurrency = coinOptions.alert.currency;
                     let coinMinAmount = coinOptions.alert.minAmount;
                     let coinMaxAmount = coinOptions.alert.maxAmount;
                     let priceString = 'price_' + coinCurrency.toLowerCase();

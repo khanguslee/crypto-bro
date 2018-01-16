@@ -91,7 +91,11 @@ body {
     border-color: red !important;
 }
 
-#emptyDataText {
+#invalidDataText {
+    width: 50%;
+}
+
+#emptyDataText, #invalidDataText {
     color: red;
     display: none;
 }

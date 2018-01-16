@@ -34,7 +34,7 @@ To load the application, type in `chrome://extensions/` into the browser and che
 - [ ] Display prices in bitcoin
 - [ ] Edit quantity of a particular coin by clicking on the coin entry in the extension window
 - [ ] Add more currency types for alerting 
-- [ ] Let travisCI run tests on the code (Currently runs jshint on javascript code) 
+- [ ] Let travisCI run tests on the code (Currently runs eslint on javascript code) 
 
 ### Design
 - [x] Add green/red arrows to show if the coin increased/decreased in value

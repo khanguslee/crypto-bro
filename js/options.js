@@ -147,6 +147,11 @@ function alertCoin(coinID, coinName) {
             document.getElementById('alertMinAmount').value = alertInfo.minAmount;
             document.getElementById('alertMaxAmount').value = alertInfo.maxAmount;
         }
+        else {
+            document.getElementById('alertCurrency').value = 'BTC';
+            document.getElementById('alertMinAmount').value = '';
+            document.getElementById('alertMaxAmount').value = '';
+        }
 
         // Clone node to remove previous event listeners
         let saveAlertButton = document.getElementById('saveAlertButton');
@@ -168,6 +173,7 @@ function saveAlert(coinID) {
     /*
         Save Alert button handler
     */
+    resetAlertElements();
     let currencyType = document.getElementById('alertCurrency').value;
     let minAmount = document.getElementById('alertMinAmount').value;
     let maxAmount = document.getElementById('alertMaxAmount').value;
@@ -182,7 +188,10 @@ function saveAlert(coinID) {
     // If user supplies both minAmount and maxAmount, check if minAmount is less than maxAmount
     else if (minAmount != '' && maxAmount != '')
     {
-        if (minAmount > maxAmount) {
+        if (parseInt(minAmount) > parseInt(maxAmount)) {
+            document.getElementById('alertMinAmount').className = 'invalid-input';
+            document.getElementById('alertMaxAmount').className = 'invalid-input';
+            document.getElementById('invalidDataText').style.display = 'inline';
             return;
         }
     }
@@ -225,6 +234,7 @@ function resetAlertElements() {
     document.getElementById('alertMinAmount').className = '';
     document.getElementById('alertMaxAmount').className = '';
     document.getElementById('emptyDataText').style.display = 'none';
+    document.getElementById('invalidDataText').style.display = 'none';
 }
 
 function closeQuantityModal() {

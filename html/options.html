@@ -10,8 +10,30 @@
 
 <body>
     <div id="coin-option-container">
-        <h1>Thank you for your support!</h1>
-        <p>Feel free to leave any suggestions/improvements to this extension!</p>
+        <div id="information-text-box">
+            <h1>Thank you for your support!</h1>
+            <p>Feel free to leave any suggestions/improvements to this extension! Donations would greatly help too!</p>
+            <p>
+                <a id="wallet-links">Donate here!</a>
+            </p>
+            <div id="wallet-div">
+                <p id="wallet-btc">BTC: 13fs6p9h2sq4WFGERS13qSr9VHoC2nbEyD</p>
+                <p id="wallet-eth">ETH: 0x69fab5ae030a1fc1f058aa129d532e7bc86d1d42</p>
+                <p id="wallet-ltc">LTC: LPp5RHnzkSeQiJK9pZUZo8GM4KW2UQGwBQ</p>
+                <p id="wallet-xrp">XRP: rszitPrLFxRk89qWyvrU4b5EPfHSTpTXkx</p>
+            </div>
+
+            <div>
+                <div class="modal-main" id="walletModal">
+                    <div class="modal-content wallet">
+                        <span class="close" id="closeWalletModal">&times;</span>
+                        <h1><span id="wallet-modal-header"></span></h1>
+                        <img id="qr-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="currency-header">
             <h1>Select currency:</h1>
             <div id="currency-option">

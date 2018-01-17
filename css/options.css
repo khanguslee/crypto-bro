@@ -2,8 +2,40 @@ body {
     font-family: 'Open Sans', sans-serif;     
 }
 
+#information-text-box {
+    padding: 5px;
+    border-bottom: 2px solid #F2F2F2;
+}
+
+#wallet-div {
+    display: none;
+}
+
+#wallet-div p {
+    text-align: center;
+    padding: 2px;
+    margin: 2px;
+}
+
+#wallet-div p:hover {
+    background: #F2F2F2;
+}
+
+.wallet {
+    width: 55% !important;
+}
+
+.wallet h1 {
+    margin-bottom: 20px;
+}
+
+#qr-image {
+    width: 100%;
+}
+
 #currency-header {
     display: flex;
+    padding-top: 10px;
 }
 
 #currency-header h1{
@@ -73,6 +105,10 @@ body {
     padding: 20px;
     border: 1px solid #888;
     width: 70%; 
+}
+
+#walletModal {
+    display: none;
 }
 
 #alertModal {

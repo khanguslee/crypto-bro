@@ -1,9 +1,40 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
+    setUpWalletDetails();
     displayCurrencyOption();
     displayAllCoins();
     enableSearchBar();
 });
+
+function setUpWalletDetails() {
+    document.getElementById('wallet-links').addEventListener('click', toggleWalletDetails);
+
+    document.getElementById('wallet-btc').addEventListener('click', showQRCode);
+    document.getElementById('wallet-eth').addEventListener('click', showQRCode);
+    document.getElementById('wallet-ltc').addEventListener('click', showQRCode);
+    document.getElementById('wallet-xrp').addEventListener('click', showQRCode);
+
+    document.getElementById('closeWalletModal').addEventListener('click', closeWalletModal);
+    
+}
+
+function toggleWalletDetails() {
+    let walletDiv = document.getElementById('wallet-div');
+    walletDiv.style.display = walletDiv.style.display == 'inline' ? 'none' : 'inline';
+}
+
+function showQRCode() {
+    let coinName = this.id;
+    // Display modal
+    let modal = document.getElementById('walletModal');
+    modal.style.display = 'inline';
+    // Set header for modal
+    let walletModalHeader = document.getElementById('wallet-modal-header');
+    walletModalHeader.innerHTML = 'Donate to ' + coinName.substr(7).toUpperCase() + ' Wallet';
+    // Show QR image
+    let qrImage = document.getElementById('qr-image');
+    qrImage.src = "../images/" + coinName + '.png';
+
+}
 
 function displayCurrencyOption() {
     // Displays list of valid currencies that can be displayed
@@ -237,6 +268,11 @@ function resetAlertElements() {
     document.getElementById('invalidDataText').style.display = 'none';
 }
 
+function closeWalletModal() {
+    let modal = document.getElementById('walletModal');
+    modal.style.display = 'none';
+}
+
 function closeQuantityModal() {
     let modal = document.getElementById('quantityModal');
     modal.style.display = 'none';
@@ -247,7 +283,6 @@ function closeAlertModal() {
     modal.style.display = 'none';
     resetAlertElements();
 }
-
 
 function createCoinOptionList(coinList) {
     let coinListElement = document.getElementById('coin-option-list');

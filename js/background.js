@@ -4,9 +4,6 @@ function updateCoinList() {
     // Get currency to display
     chrome.storage.sync.get({"currency": "USD"}, (storedCurrency) => {
         var currency = storedCurrency.currency;
-        // Debug only:
-        //console.log('Updating coin data with ' + currency);
-
         // Set URL to get information from
         var coinURL = cmcBaseUrl + '/ticker/?limit=0';
         if (currency != "USD") {
@@ -37,7 +34,6 @@ function checkAlerts() {
         // Get coin data stored locally 
         chrome.storage.local.get({'coins': {}}, (result) => {
             let coinValueList = result.coins;
-            console.log(coinValueList);
             for(let coin in coinValueList) {
                 // If the user has set some options for the coin in the list
                 if (coinValueList[coin].id in coinList)

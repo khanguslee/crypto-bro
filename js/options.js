@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function setUpWalletDetails() {
+    // Add event listeners for all the wallet related stuff
     document.getElementById('wallet-links').addEventListener('click', toggleWalletDetails);
 
     document.getElementById('wallet-btc').addEventListener('click', showQRCode);
@@ -14,15 +15,16 @@ function setUpWalletDetails() {
     document.getElementById('wallet-xrp').addEventListener('click', showQRCode);
 
     document.getElementById('closeWalletModal').addEventListener('click', closeWalletModal);
-    
 }
 
 function toggleWalletDetails() {
+    // Toggle visibility of the wallet details
     let walletDiv = document.getElementById('wallet-div');
     walletDiv.style.display = walletDiv.style.display == 'inline' ? 'none' : 'inline';
 }
 
 function showQRCode() {
+    // Show QR code iamge of all the wallets
     let coinName = this.id;
     // Display modal
     let modal = document.getElementById('walletModal');
@@ -66,7 +68,6 @@ function changeCurrency(selectedCurrency) {
     chrome.storage.sync.set({"currency": selectedCurrency.target.value}, () => {
         let backgroundPage = chrome.extension.getBackgroundPage();
         backgroundPage.updateCoinList();
-        console.log("Currency set as " + selectedCurrency.target.value);
     });
 }
 

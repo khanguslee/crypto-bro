@@ -5,6 +5,7 @@
     <script type="text/javascript" src="../js/options.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../css/options.css">        
+    <script defer src="../js/fontawesome-all.js"></script>
 </head>
 
 <body>
@@ -24,9 +25,47 @@
                 <h1>Select coins to show:</h1>
                 <input type="text" id="crypto-search-bar" placeholder="Search Coin">
         </div>
-        <ul id="coin-option-list" >
+        <div>
+            <div class="modal-main alert" id="alertModal">
+                <div class="modal-content">
+                    <span class="close" id="closeAlertModal">&times;</span>
+                    <h1>Set Alert for <span id="alertCoinName"></span></h1>
+                    <p>
+                        Currency:
+                        <select id='alertCurrency'>
+                            <option selected>BTC</option>
+                            <option>USD</option>
+                        </select>
+                    </p>
+                    <p>
+                        Minimum Amount: 
+                        <input type="number" id='alertMinAmount'>
+                    </p>
+                    <p>
+                        Maximum Amount: 
+                        <input type="number" id='alertMaxAmount'>
+                    </p>
+                    <small for="alertMaxAmount" id="emptyDataText">Please input an amount!</small>
+                    <small for="alertMaxAmount" id="invalidDataText">Invalid min and max amount!</small>
+                    <input type="button" id="deleteAlertButton" value="Delete">
+                    <input type="button" id="saveAlertButton" value="Save">
+                </div>
+            </div>
 
-        </ul>
+            <div class="modal-main" id="quantityModal">
+                    <div class="modal-content">
+                        <span class="close" id="closeQuantityModal">&times;</span>
+                        <h1>Edit <span id="quantityCoinName"></span> Quantity</h1>
+                        <p>
+                            Quantity:
+                            <input type="number" id="input-user-coin-amount">
+                        </p>
+                        <input type="button" id="saveQuantityButton" value="Save">
+                    </div>
+                </div>
+            <ul id="coin-option-list" >
+            </ul>
+        </div>
     </div>
 
 </body>

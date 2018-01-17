@@ -43,8 +43,11 @@ body {
     display: none;
 }
 
-.coin-entry .input-user-coin-amount{
-
+.coin-entry .alert-button {
+    display: none;
+    margin-left: 5px;
+    min-width: min-content;
+    float: right;
 }
 
 #crypto-search-bar {
@@ -64,11 +67,41 @@ body {
 }
 
 .modal-content {
+    overflow: hidden;
     background-color: #fefefe;
     margin: 20% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 70%; 
+}
+
+#alertModal {
+    display: none;
+}
+
+#quantityModal {
+    display: none;
+}
+
+#saveAlertButton, #saveQuantityButton, #deleteAlertButton{
+    float: right;
+}
+
+.invalid-input {
+    border-color: red !important;
+}
+
+#invalidDataText {
+    width: 50%;
+}
+
+#emptyDataText, #invalidDataText {
+    color: red;
+    display: none;
+}
+
+.alert p {
+    display: table;
 }
 
 .close {

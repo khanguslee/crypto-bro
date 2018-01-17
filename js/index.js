@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function updateCoin(currency, coin , coinAmount){
     chrome.storage.local.get({'coins':[]}, (storedList) => {
         var coinList = storedList.coins;
+        // Find the index of the coin within the stored coin list
         for (var i=0; i<coinList.length; i++) {
             if (coinList[i].id == coin)
             {
@@ -94,9 +95,6 @@ function updateCoin(currency, coin , coinAmount){
             
             let portfolioArrowChangeElement = document.getElementById('portfolio-arrow');
             portfolioArrowChangeElement.className = totalAmountPercent < 0 ? "arrow fas fa-angle-down" : "arrow fas fa-angle-up";
-            console.log(totalAmountPercent);
-            console.log(portfolioArrowChangeElement);
-            console.log(portfolioArrowChangeElement.className);
             portfolioChangeTextElement.innerHTML = totalAmountPercent.toFixed(2);
         }
     });

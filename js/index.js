@@ -69,33 +69,32 @@ function updateCoin(currency, coin , coinAmount){
             totalAmountHolding += coinHoldingsAmount;
             // Get sum of previous amount user was holding
             totalPrevAmountHolding += coinHoldingsAmount / (1+(coinPercentage/100));  
-        }
-
-        // Show total amount that user is holding
-        if (totalAmountHolding)
-        {
-            document.getElementById("crypto-total").style.display = 'flex';
-            let portfolioTotalElement = document.getElementById("crypto-amount-text");
-            portfolioTotalElement.innerHTML = totalAmountHolding.toFixed(2);
-            let totalAmountPercent = (totalAmountHolding - totalPrevAmountHolding)/totalPrevAmountHolding;
-            totalAmountPercent *= 100;
-            let portfolioChangeElement = document.getElementById('crypto-amount-change');
-            // Change colour to red or green
-            portfolioChangeElement.style.color = totalAmountPercent < 0 ? "#e60000" : "#00e600";
-            // Add arrow icon
-            let portfolioChangeTextElement = document.getElementById("crypto-amount-change-text");
-
-            // Insert arrow if there is none yet.
-            if (portfolioChangeElement.childNodes.length == 2)
+            // Show total amount that user is holding
+            if (totalAmountHolding)
             {
-                let portfolioArrowChange = document.createElement('i');
-                portfolioArrowChange.id = 'portfolio-arrow';
-                portfolioChangeElement.insertBefore(portfolioArrowChange, portfolioChangeTextElement);
+                document.getElementById("crypto-total").style.display = 'flex';
+                let portfolioTotalElement = document.getElementById("crypto-amount-text");
+                portfolioTotalElement.innerHTML = totalAmountHolding.toFixed(2);
+                let totalAmountPercent = (totalAmountHolding - totalPrevAmountHolding)/totalPrevAmountHolding;
+                totalAmountPercent *= 100;
+                let portfolioChangeElement = document.getElementById('crypto-amount-change');
+                // Change colour to red or green
+                portfolioChangeElement.style.color = totalAmountPercent < 0 ? "#e60000" : "#00e600";
+                // Add arrow icon
+                let portfolioChangeTextElement = document.getElementById("crypto-amount-change-text");
+    
+                // Insert arrow if there is none yet.
+                if (portfolioChangeElement.childNodes.length == 2)
+                {
+                    let portfolioArrowChange = document.createElement('i');
+                    portfolioArrowChange.id = 'portfolio-arrow';
+                    portfolioChangeElement.insertBefore(portfolioArrowChange, portfolioChangeTextElement);
+                }
+                
+                let portfolioArrowChangeElement = document.getElementById('portfolio-arrow');
+                portfolioArrowChangeElement.className = totalAmountPercent < 0 ? "arrow fas fa-angle-down" : "arrow fas fa-angle-up";
+                portfolioChangeTextElement.innerHTML = totalAmountPercent.toFixed(2);
             }
-            
-            let portfolioArrowChangeElement = document.getElementById('portfolio-arrow');
-            portfolioArrowChangeElement.className = totalAmountPercent < 0 ? "arrow fas fa-angle-down" : "arrow fas fa-angle-up";
-            portfolioChangeTextElement.innerHTML = totalAmountPercent.toFixed(2);
         }
     });
 }

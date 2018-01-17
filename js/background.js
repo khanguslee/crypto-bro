@@ -4,7 +4,8 @@ function updateCoinList() {
     // Get currency to display
     chrome.storage.sync.get({"currency": "USD"}, (storedCurrency) => {
         var currency = storedCurrency.currency;
-        console.log('Updating coin data with ' + currency);
+        // Debug only:
+        //console.log('Updating coin data with ' + currency);
 
         // Set URL to get information from
         var coinURL = cmcBaseUrl + '/ticker/?limit=0';
@@ -36,6 +37,7 @@ function checkAlerts() {
         // Get coin data stored locally 
         chrome.storage.local.get({'coins': {}}, (result) => {
             let coinValueList = result.coins;
+            console.log(coinValueList);
             for(let coin in coinValueList) {
                 // If the user has set some options for the coin in the list
                 if (coinValueList[coin].id in coinList)
@@ -51,19 +53,29 @@ function checkAlerts() {
                     }
                     // Either USD or BTC
                     let coinCurrency = coinOptions.alert.currency;
-                    let coinMinAmount = coinOptions.alert.minAmount;
-                    let coinMaxAmount = coinOptions.alert.maxAmount;
+                    let coinMinAmount = parseInt(coinOptions.alert.minAmount, 10);
+                    let coinMaxAmount = parseInt(coinOptions.alert.maxAmount, 10);
                     let priceString = 'price_' + coinCurrency.toLowerCase();
                     let currentCoinPrice = coinValueList[coin][priceString];
-
-                    if (coinMinAmount != '' && currentCoinPrice < coinMinAmount) {
-                        chrome.notifications.create("minimum-amount-reached", {type: 'basic', iconUrl: '../icon_128.png', title: 'Alert', message: 'Minimum amount reached.'});
+                    if ((coinMinAmount != '') && (currentCoinPrice < coinMinAmount)) {
+                        let notificationMessage = {
+                            type: 'basic', 
+                            iconUrl: '../icon_128.png', 
+                            title: coinValueList[coin].name + ' Alert', 
+                            message: 'Minimum amount reached.\n' + coinValueList[coin].name + ' is now ' + currentCoinPrice + ' ' + coinCurrency
+                        };
+                        chrome.notifications.create("minimum-amount-reached", notificationMessage);
                     }
 
-                    if (coinMaxAmount != '' &&currentCoinPrice > coinMaxAmount) {
-                        chrome.notifications.create("maximum-amount-reached", {type: 'basic', iconUrl: '../icon_128.png', title: 'Alert', message: 'Maximum amount reached.'});
+                    if ((coinMaxAmount != '') && (currentCoinPrice > coinMaxAmount)) {
+                        let notificationMessage = {
+                            type: 'basic', 
+                            iconUrl: '../icon_128.png', 
+                            title: coinValueList[coin].name + ' Alert', 
+                            message: 'Maximum amount reached.\n' + coinValueList[coin].name + ' is now ' + currentCoinPrice + ' ' + coinCurrency
+                        };
+                        chrome.notifications.create("maximum-amount-reached", notificationMessage);
                     }
-
                 }
             }
         });

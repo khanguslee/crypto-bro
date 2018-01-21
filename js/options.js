@@ -42,7 +42,7 @@ function displayCurrencyOption() {
     // Displays list of valid currencies that can be displayed
     let selectCurrencyElement = document.getElementById("currency-option-list");
     selectCurrencyElement.addEventListener("change", changeCurrency);
-    const currencyList = ["USD", "AUD", "BRL", "CAD", "CHF", "CLP", "CNY", 
+    const currencyList = ["BTC", "USD", "AUD", "BRL", "CAD", "CHF", "CLP", "CNY", 
                             "CZK", "DKK", "EUR", "GBP", "HKD", 
                             "HUF", "IDR", "ILS", "INR", "JPY", 
                             "KRW", "MXN", "MYR", "NOK", "NZD", 

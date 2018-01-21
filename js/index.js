@@ -202,16 +202,31 @@ function initialiseApp() {
                 cryptoDiv.appendChild(cryptoEntry);
             }
 
-            // Check if user has selected a coin
+            // Check if user has selected a single coin
             if (!(coinSelectedFlag)) {
                 // Display text if user has not selected anything
                 let noCoinText = document.createElement('p');
-                let noCoinTextValue = document.createTextNode('No Coins Selected');
+                noCoinText.id = 'no-coins-selected';
+                let noCoinTextValue = document.createTextNode('No coins selected');
                 noCoinText.appendChild(noCoinTextValue);
+                cryptoDiv.appendChild(noCoinText);
 
-                let coinContainer = document.getElementById('crypto-container');
-                coinContainer.appendChild(noCoinText);
+                // Display button to open options menu
+                let openOptionButton = document.createElement('button');
+                openOptionButton.textContent = 'Click here to select coins';
+                openOptionButton.id = 'open-options-button';
+                openOptionButton.addEventListener('click', openOptionPage);
+                cryptoDiv.appendChild(openOptionButton);
             }
         });
     });
+}
+
+function openOptionPage() {
+    // Open up options.html in chrome://extensions
+    if (chrome.runtime.openOptionsPage) {
+        chrome.runtime.openOptionsPage();
+    } else {
+        window.open(chrome.runtime.getURL('html/options.html'));
+    }
 }

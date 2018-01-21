@@ -27,6 +27,14 @@ body #crypto-total p {
     margin-bottom: 5px;
 }
 
+body #no-coins-selected {
+    font-size: 15px;
+}
+
+body #open-options-button {
+    padding: 5px;
+}
+
 body .crypto-main p {
     margin-top: 5px;
     margin-bottom: 5px;

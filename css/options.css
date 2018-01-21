@@ -53,8 +53,7 @@ body {
 }
 
 #coin-option-container .coin-entry {
-    margin: 5px;
-    padding: 10px;
+    padding: 5px;
 }
 
 #coin-option-container .coin-entry:hover {
@@ -63,7 +62,8 @@ body {
 
 .coin-entry p {
     width: 20px;
-    display: inline
+    display: inline;
+    font-size: 15px;
 }
 
 .coin-entry input {

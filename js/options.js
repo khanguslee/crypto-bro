@@ -305,6 +305,9 @@ function createCoinOptionList(coinList) {
         // Add coin name text
         let coinNameTextElement = document.createElement('p');
         let coinNameText = document.createTextNode(coinDetails.name);
+        if (coinDetails.name.length > 20) {
+            coinNameTextElement.style.fontSize = '95%';
+        }
         coinNameTextElement.appendChild(coinNameText);
         newCoinEntry.appendChild(coinNameTextElement);
 

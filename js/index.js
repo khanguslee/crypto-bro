@@ -66,9 +66,18 @@ function updateCoin(currency, coin , coinAmount, alertCoin){
             let coinHoldingsElement = document.getElementById('holdings-' + coinID);
             let coinPrice = coinEntry['price_' + currency.toLowerCase()];
             let coinHoldingsAmount = coinAmount * coinPrice;
-            let coinHoldingsText = document.createTextNode(currency + '$' + coinHoldingsAmount.toFixed(2));
             if (coinHoldingsElement.childNodes[0]) {
                 coinHoldingsElement.removeChild(coinHoldingsElement.childNodes[0]);
+            }
+            // Check currency symbol
+            var coinHoldingsText;
+            if (currency == 'BTC') {
+                coinHoldingsText = document.createTextNode(coinHoldingsAmount.toFixed(2));
+                let bitcoinSymbol = document.createElement('i');
+                bitcoinSymbol.className = 'fab fa-btc';
+                coinHoldingsElement.appendChild(bitcoinSymbol);
+            } else {
+                coinHoldingsText = document.createTextNode(currency + '$' + coinHoldingsAmount.toFixed(2));
             }
             coinHoldingsElement.appendChild(coinHoldingsText);
 
@@ -119,6 +128,18 @@ function initialiseApp() {
             const coinURLStart = 'https://coinmarketcap.com/currencies/';
             var selectedCurrency = storedCurrency.currency;
             var coinSelectedFlag = false;
+            // Check currency symbol
+            if (selectedCurrency == 'BTC') {
+                let bitcoinSymbol = document.createElement('i');
+                bitcoinSymbol.className = 'fab fa-btc';
+                let portfolioAmount = document.getElementById('crypto-amount');
+                let portfolioAmountText = document.getElementById('crypto-amount-text');
+                portfolioAmount.insertBefore(bitcoinSymbol, portfolioAmountText);
+            } else {
+                let portfolioCurrency = document.getElementById('crypto-currency');
+                portfolioCurrency.innerHTML = selectedCurrency + '$';
+            }
+            
             for (var coin in coinList) {
                 // Check if user has selected the coin
                 if (!coinList[coin].display) {
@@ -155,8 +176,15 @@ function initialiseApp() {
                 // Add in price paragraph
                 let coinPriceElement = document.createElement('p');
                 coinPriceElement.setAttribute('class', 'crypto-price');
-                let coinPriceValue = document.createTextNode(selectedCurrency + '$');
-                coinPriceElement.appendChild(coinPriceValue); 
+                // Add in bitcoin symbol instead of $
+                if (selectedCurrency == 'BTC') {
+                    let currencyType = document.createElement('i');
+                    currencyType.className = 'fab fa-btc';
+                    coinPriceElement.appendChild(currencyType);
+                } else {
+                    let currencyType = document.createTextNode(selectedCurrency + '$');
+                    coinPriceElement.appendChild(currencyType); 
+                }
                 let coinPriceSpan = document.createElement('span');
                 coinPriceSpan.id = 'price-' + coin;
                 coinPriceElement.appendChild(coinPriceSpan);

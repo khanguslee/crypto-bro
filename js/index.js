@@ -73,27 +73,29 @@ function updateCoin(currency, coin , coinAmount){
             if (totalAmountHolding)
             {
                 document.getElementById("crypto-total").style.display = 'flex';
+                // Set the portfolio amount text
                 let portfolioTotalElement = document.getElementById("crypto-amount-text");
                 portfolioTotalElement.innerHTML = totalAmountHolding.toFixed(2);
+                // Work out the percentage change
                 let totalAmountPercent = (totalAmountHolding - totalPrevAmountHolding)/totalPrevAmountHolding;
                 totalAmountPercent *= 100;
-                let portfolioChangeElement = document.getElementById('crypto-amount-change');
                 // Change colour to red or green
-                portfolioChangeElement.style.color = totalAmountPercent < 0 ? "#e60000" : "#00e600";
-                // Add arrow icon
-                let portfolioChangeTextElement = document.getElementById("crypto-amount-change-text");
-    
-                // Insert arrow if there is none yet.
-                if (portfolioChangeElement.childNodes.length == 2)
-                {
-                    let portfolioArrowChange = document.createElement('i');
-                    portfolioArrowChange.id = 'portfolio-arrow';
-                    portfolioChangeElement.insertBefore(portfolioArrowChange, portfolioChangeTextElement);
+                let portfolioChangeElement = document.getElementById('crypto-amount-change');
+                portfolioChangeElement.style.color = totalAmountPercent < 0.00 ? "#e60000" : "#00e600";
+                // Set percentage change text
+                let portfolioPercentageChange = document.getElementById("crypto-amount-change-text");
+                portfolioPercentageChange.innerHTML = totalAmountPercent.toFixed(2);
+
+                // Remove existing arrow icon
+                var portfolioArrowChangeElement = document.getElementById('portfolio-arrow');
+                if (portfolioArrowChangeElement != null){
+                    portfolioArrowChangeElement.parentNode.removeChild(portfolioArrowChangeElement);
                 }
-                
-                let portfolioArrowChangeElement = document.getElementById('portfolio-arrow');
-                portfolioArrowChangeElement.className = totalAmountPercent < 0 ? "arrow fas fa-angle-down" : "arrow fas fa-angle-up";
-                portfolioChangeTextElement.innerHTML = totalAmountPercent.toFixed(2);
+                // Create arrow element
+                portfolioArrowChangeElement = document.createElement('i');
+                portfolioArrowChangeElement.id = 'portfolio-arrow';
+                portfolioArrowChangeElement.className = totalAmountPercent < 0.00 ? "arrow fas fa-angle-down" : "arrow fas fa-angle-up";
+                portfolioChangeElement.insertBefore(portfolioArrowChangeElement, portfolioPercentageChange);
             }
         }
     });

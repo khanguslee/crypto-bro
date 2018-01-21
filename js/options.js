@@ -92,19 +92,24 @@ function syncButtons() {
     const defaultJsonValue = {'coinOptions':{'bitcoin': {"value": ''}}};
     chrome.storage.sync.get(defaultJsonValue, (result) => {
         var coinList = result.coinOptions;
-        for (var key in coinList) {
-            let isChecked = coinList[key].display;
+        for(let coin in coinList) {
+            let isChecked = coinList[coin].display;
             // Show/Hide buttons if checkbox checked/unchecked
-            let coinButton = document.getElementById('btn-' + key);
+            let coinButton = document.getElementById('btn-' + coin);
             if (coinButton != null)
             {
                 coinButton.style.display = isChecked ? 'inline' : 'none';
             }
-            let alertButton = document.getElementById('alert-' + key);
+            let alertButton = document.getElementById('alert-' + coin);
             if (alertButton != null)
             {
                 alertButton.style.display = isChecked ? 'inline' : 'none';
-
+            }
+            if ('alert' in coinList[coin]) {
+                if (coinList[coin].alert != "" && coinList[coin].alert != {}) {
+                    alertButton.style.fontWeight = 'bolder';
+                    alertButton.style.border = '1px solid gray';
+                } 
             }
         }
     });
@@ -239,6 +244,9 @@ function saveAlert(coinID) {
         chrome.storage.sync.set({'coinOptions': coinList}, () => {
             console.log("Alert saved!");
         });
+        let alertButton = document.getElementById('alert-' + coinID);
+        alertButton.style.fontWeight = 'bolder';
+        alertButton.style.border = '1px solid gray';
         closeAlertModal();
     });
 }
@@ -257,6 +265,9 @@ function deleteAlert(coinID) {
         chrome.storage.sync.set({'coinOptions': coinList}, () => {
             console.log("Alert deleted!");
         });
+        let alertButton = document.getElementById('alert-' + coinID);
+        alertButton.style.fontWeight = 'normal';
+        alertButton.style.border = '';
         closeAlertModal();
     });
 }

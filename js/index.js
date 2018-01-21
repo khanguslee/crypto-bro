@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initialiseApp();
 });
 
-function updateCoin(currency, coin , coinAmount){
+function updateCoin(currency, coin , coinAmount, alertCoin){
     chrome.storage.local.get({'coins':[]}, (storedList) => {
         var coinList = storedList.coins;
         // Find the index of the coin within the stored coin list
@@ -30,6 +30,13 @@ function updateCoin(currency, coin , coinAmount){
         }
         coinNameElement.appendChild(coinNameValue);
 
+        // Add Alert icon
+        if (alertCoin) {
+            let alertIcon = document.createElement('i');
+            alertIcon.className = 'far fa-bell';
+            coinNameElement.appendChild(alertIcon);
+        }
+        
         // Price of coin
         let coinPrice = parseFloat(coinEntry['price_' + currency.toLowerCase()]).toPrecision(5);
         let coinPriceElement = document.getElementById('price-' + coinID);
@@ -174,17 +181,24 @@ function initialiseApp() {
                 coinHoldingsElement.appendChild(coinHoldingsSpan);
                 cryptoSecondaryDiv.appendChild(coinHoldingsElement);
 
+                let alertCoin = false;
+                // Check if user has set alert for this coin
+                if ('alert' in coinList[coin]) {
+                    // Check if alert is empty
+                    if (coinList[coin].alert != "" && coinList[coin].alert != {}) {
+                        alertCoin = true;
+                    } 
+                } 
+                
                 /* Update the prices and details for each coin */
                 if ('value' in coinList[coin] & coinList[coin] != 0) {
-                    updateCoin(selectedCurrency, coin, parseFloat(coinList[coin].value));
+                    updateCoin(selectedCurrency, coin, parseFloat(coinList[coin].value), alertCoin);
                 } else {
-                    updateCoin(selectedCurrency, coin, 0);
+                    updateCoin(selectedCurrency, coin, 0, alertCoin);
                 }
                 cryptoEntry.appendChild(cryptoSecondaryDiv);
                 cryptoDiv.appendChild(cryptoEntry);
             }
         });
     });
-    
-
 }

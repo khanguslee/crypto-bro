@@ -63,6 +63,10 @@ body .crypto-name {
     font-weight: bold;
 }
 
+body .crypto-name .fa-bell {
+    margin-left: 5px;
+}
+
 body .crypto-price {
     color: #999999;
 }

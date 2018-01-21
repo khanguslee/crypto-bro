@@ -12,6 +12,7 @@ A chrome extension to check the prices of cryptocurrency on [Coin Market Cap](ht
 - Display prices of crypto-currencies in various currency formats
 - Track the value of your portfolio
 - View the percent change of the coin over 24 hours
+- Get alerted when a coin has increased/decreased past a certain value
 
 ## Getting Started
 To load the application, type in `chrome://extensions/` into the browser and check "Developer Mode". Click on "Load unpacked extension..." and select the folder of this repository. 

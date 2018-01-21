@@ -118,11 +118,13 @@ function initialiseApp() {
         chrome.storage.sync.get({"currency": "USD"}, (storedCurrency) => {
             const coinURLStart = 'https://coinmarketcap.com/currencies/';
             var selectedCurrency = storedCurrency.currency;
+            var coinSelectedFlag = false;
             for (var coin in coinList) {
                 // Check if user has selected the coin
                 if (!coinList[coin].display) {
                     continue;
                 }
+                coinSelectedFlag = true;
                 /* Create the html elements */
                 // Create outer div to store the coin entry
                 let cryptoEntry = document.createElement('div');
@@ -198,6 +200,17 @@ function initialiseApp() {
                 }
                 cryptoEntry.appendChild(cryptoSecondaryDiv);
                 cryptoDiv.appendChild(cryptoEntry);
+            }
+
+            // Check if user has selected a coin
+            if (!(coinSelectedFlag)) {
+                // Display text if user has not selected anything
+                let noCoinText = document.createElement('p');
+                let noCoinTextValue = document.createTextNode('No Coins Selected');
+                noCoinText.appendChild(noCoinTextValue);
+
+                let coinContainer = document.getElementById('crypto-container');
+                coinContainer.appendChild(noCoinText);
             }
         });
     });

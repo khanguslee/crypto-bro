@@ -75,7 +75,7 @@ function updateCoin(currency, coin , coinAmount, alertCoin){
             if (currency == 'BTC') {
                 coinHoldingsText = document.createTextNode(coinHoldingsAmount.toFixed(numberOfDecimalPlaces));
                 let bitcoinSymbol = document.createElement('i');
-                bitcoinSymbol.className = 'fab fa-btc';
+                bitcoinSymbol.className = 'fab fa-btc btc-symbol';
                 coinHoldingsElement.appendChild(bitcoinSymbol);
             } else {
                 coinHoldingsText = document.createTextNode(currency + '$' + coinHoldingsAmount.toFixed(numberOfDecimalPlaces));
@@ -90,6 +90,7 @@ function updateCoin(currency, coin , coinAmount, alertCoin){
             if (totalAmountHolding)
             {
                 document.getElementById("crypto-total").style.display = 'flex';
+                document.getElementById("crypto-header").style.display = 'flex';
                 // Set the portfolio amount text
                 let portfolioTotalElement = document.getElementById("crypto-amount-text");
                 portfolioTotalElement.innerHTML = totalAmountHolding.toFixed(numberOfDecimalPlaces);
@@ -132,7 +133,7 @@ function initialiseApp() {
             // Check currency symbol
             if (selectedCurrency == 'BTC') {
                 let bitcoinSymbol = document.createElement('i');
-                bitcoinSymbol.className = 'fab fa-btc';
+                bitcoinSymbol.className = 'fab fa-btc btc-symbol';
                 let portfolioAmount = document.getElementById('crypto-amount');
                 let portfolioAmountText = document.getElementById('crypto-amount-text');
                 portfolioAmount.insertBefore(bitcoinSymbol, portfolioAmountText);
@@ -180,7 +181,7 @@ function initialiseApp() {
                 // Add in bitcoin symbol instead of $
                 if (selectedCurrency == 'BTC') {
                     let currencyType = document.createElement('i');
-                    currencyType.className = 'fab fa-btc';
+                    currencyType.className = 'fab fa-btc btc-symbol';
                     coinPriceElement.appendChild(currencyType);
                 } else {
                     let currencyType = document.createTextNode(selectedCurrency + '$');

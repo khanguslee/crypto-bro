@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initialiseApp();
 });
 
-function updateCoin(currency, coin , coinAmount){
+function updateCoin(currency, coin , coinAmount, alertCoin){
     chrome.storage.local.get({'coins':[]}, (storedList) => {
         var coinList = storedList.coins;
         // Find the index of the coin within the stored coin list
@@ -30,6 +30,13 @@ function updateCoin(currency, coin , coinAmount){
         }
         coinNameElement.appendChild(coinNameValue);
 
+        // Add Alert icon
+        if (alertCoin) {
+            let alertIcon = document.createElement('i');
+            alertIcon.className = 'far fa-bell';
+            coinNameElement.appendChild(alertIcon);
+        }
+        
         // Price of coin
         let coinPrice = parseFloat(coinEntry['price_' + currency.toLowerCase()]).toPrecision(5);
         let coinPriceElement = document.getElementById('price-' + coinID);
@@ -59,9 +66,19 @@ function updateCoin(currency, coin , coinAmount){
             let coinHoldingsElement = document.getElementById('holdings-' + coinID);
             let coinPrice = coinEntry['price_' + currency.toLowerCase()];
             let coinHoldingsAmount = coinAmount * coinPrice;
-            let coinHoldingsText = document.createTextNode(currency + '$' + coinHoldingsAmount.toFixed(2));
+            let numberOfDecimalPlaces = currency == 'BTC' ? 6 : 2;
             if (coinHoldingsElement.childNodes[0]) {
                 coinHoldingsElement.removeChild(coinHoldingsElement.childNodes[0]);
+            }
+            // Check currency symbol
+            var coinHoldingsText;
+            if (currency == 'BTC') {
+                coinHoldingsText = document.createTextNode(coinHoldingsAmount.toFixed(numberOfDecimalPlaces));
+                let bitcoinSymbol = document.createElement('i');
+                bitcoinSymbol.className = 'fab fa-btc btc-symbol';
+                coinHoldingsElement.appendChild(bitcoinSymbol);
+            } else {
+                coinHoldingsText = document.createTextNode(currency + '$' + coinHoldingsAmount.toFixed(numberOfDecimalPlaces));
             }
             coinHoldingsElement.appendChild(coinHoldingsText);
 
@@ -73,9 +90,10 @@ function updateCoin(currency, coin , coinAmount){
             if (totalAmountHolding)
             {
                 document.getElementById("crypto-total").style.display = 'flex';
+                document.getElementById("crypto-header").style.display = 'flex';
                 // Set the portfolio amount text
                 let portfolioTotalElement = document.getElementById("crypto-amount-text");
-                portfolioTotalElement.innerHTML = totalAmountHolding.toFixed(2);
+                portfolioTotalElement.innerHTML = totalAmountHolding.toFixed(numberOfDecimalPlaces);
                 // Work out the percentage change
                 let totalAmountPercent = (totalAmountHolding - totalPrevAmountHolding)/totalPrevAmountHolding;
                 totalAmountPercent *= 100;
@@ -111,11 +129,25 @@ function initialiseApp() {
         chrome.storage.sync.get({"currency": "USD"}, (storedCurrency) => {
             const coinURLStart = 'https://coinmarketcap.com/currencies/';
             var selectedCurrency = storedCurrency.currency;
+            var coinSelectedFlag = false;
+            // Check currency symbol
+            if (selectedCurrency == 'BTC') {
+                let bitcoinSymbol = document.createElement('i');
+                bitcoinSymbol.className = 'fab fa-btc btc-symbol';
+                let portfolioAmount = document.getElementById('crypto-amount');
+                let portfolioAmountText = document.getElementById('crypto-amount-text');
+                portfolioAmount.insertBefore(bitcoinSymbol, portfolioAmountText);
+            } else {
+                let portfolioCurrency = document.getElementById('crypto-currency');
+                portfolioCurrency.innerHTML = selectedCurrency + '$';
+            }
+            
             for (var coin in coinList) {
                 // Check if user has selected the coin
                 if (!coinList[coin].display) {
                     continue;
                 }
+                coinSelectedFlag = true;
                 /* Create the html elements */
                 // Create outer div to store the coin entry
                 let cryptoEntry = document.createElement('div');
@@ -146,8 +178,15 @@ function initialiseApp() {
                 // Add in price paragraph
                 let coinPriceElement = document.createElement('p');
                 coinPriceElement.setAttribute('class', 'crypto-price');
-                let coinPriceValue = document.createTextNode(selectedCurrency + '$');
-                coinPriceElement.appendChild(coinPriceValue); 
+                // Add in bitcoin symbol instead of $
+                if (selectedCurrency == 'BTC') {
+                    let currencyType = document.createElement('i');
+                    currencyType.className = 'fab fa-btc btc-symbol';
+                    coinPriceElement.appendChild(currencyType);
+                } else {
+                    let currencyType = document.createTextNode(selectedCurrency + '$');
+                    coinPriceElement.appendChild(currencyType); 
+                }
                 let coinPriceSpan = document.createElement('span');
                 coinPriceSpan.id = 'price-' + coin;
                 coinPriceElement.appendChild(coinPriceSpan);
@@ -174,17 +213,50 @@ function initialiseApp() {
                 coinHoldingsElement.appendChild(coinHoldingsSpan);
                 cryptoSecondaryDiv.appendChild(coinHoldingsElement);
 
+                let alertCoin = false;
+                // Check if user has set alert for this coin
+                if ('alert' in coinList[coin]) {
+                    // Check if alert is empty
+                    if (coinList[coin].alert != "" && coinList[coin].alert != {}) {
+                        alertCoin = true;
+                    } 
+                } 
+                
                 /* Update the prices and details for each coin */
                 if ('value' in coinList[coin] & coinList[coin] != 0) {
-                    updateCoin(selectedCurrency, coin, parseFloat(coinList[coin].value));
+                    updateCoin(selectedCurrency, coin, parseFloat(coinList[coin].value), alertCoin);
                 } else {
-                    updateCoin(selectedCurrency, coin, 0);
+                    updateCoin(selectedCurrency, coin, 0, alertCoin);
                 }
                 cryptoEntry.appendChild(cryptoSecondaryDiv);
                 cryptoDiv.appendChild(cryptoEntry);
             }
+
+            // Check if user has selected a single coin
+            if (!(coinSelectedFlag)) {
+                // Display text if user has not selected anything
+                let noCoinText = document.createElement('p');
+                noCoinText.id = 'no-coins-selected';
+                let noCoinTextValue = document.createTextNode('No coins selected');
+                noCoinText.appendChild(noCoinTextValue);
+                cryptoDiv.appendChild(noCoinText);
+
+                // Display button to open options menu
+                let openOptionButton = document.createElement('button');
+                openOptionButton.textContent = 'Click here to select coins';
+                openOptionButton.id = 'open-options-button';
+                openOptionButton.addEventListener('click', openOptionPage);
+                cryptoDiv.appendChild(openOptionButton);
+            }
         });
     });
-    
+}
 
+function openOptionPage() {
+    // Open up options.html in chrome://extensions
+    if (chrome.runtime.openOptionsPage) {
+        chrome.runtime.openOptionsPage();
+    } else {
+        window.open(chrome.runtime.getURL('html/options.html'));
+    }
 }

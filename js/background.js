@@ -39,6 +39,10 @@ function checkAlerts() {
                 if (coinValueList[coin].id in coinList)
                 {
                     let coinOptions = coinList[coinValueList[coin].id];
+                    // Check if user has displayed the coin
+                    if (!coinOptions.display) {
+                        continue;
+                    }
                     // Check if we have set some alert options
                     if (!('alert' in coinOptions)) {
                         continue;

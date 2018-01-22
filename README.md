@@ -32,7 +32,7 @@ To load the application, type in `chrome://extensions/` into the browser and che
 - [ ] Add option to display price change in percentages or in monetary amount (Maybe cycle this?)
 - [x] Displayed entries in same order each time
 - [x] Add link to the coin's coinmarketcap page
-- [ ] Display prices in bitcoin
+- [x] Display prices in bitcoin
 - [ ] Edit quantity of a particular coin by clicking on the coin entry in the extension window
 - [ ] Add more currency types for alerting 
 - [ ] Let travisCI run tests on the code (Currently runs eslint on javascript code) 

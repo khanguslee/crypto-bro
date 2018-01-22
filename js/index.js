@@ -66,18 +66,19 @@ function updateCoin(currency, coin , coinAmount, alertCoin){
             let coinHoldingsElement = document.getElementById('holdings-' + coinID);
             let coinPrice = coinEntry['price_' + currency.toLowerCase()];
             let coinHoldingsAmount = coinAmount * coinPrice;
+            let numberOfDecimalPlaces = currency == 'BTC' ? 6 : 2;
             if (coinHoldingsElement.childNodes[0]) {
                 coinHoldingsElement.removeChild(coinHoldingsElement.childNodes[0]);
             }
             // Check currency symbol
             var coinHoldingsText;
             if (currency == 'BTC') {
-                coinHoldingsText = document.createTextNode(coinHoldingsAmount.toFixed(2));
+                coinHoldingsText = document.createTextNode(coinHoldingsAmount.toFixed(numberOfDecimalPlaces));
                 let bitcoinSymbol = document.createElement('i');
                 bitcoinSymbol.className = 'fab fa-btc';
                 coinHoldingsElement.appendChild(bitcoinSymbol);
             } else {
-                coinHoldingsText = document.createTextNode(currency + '$' + coinHoldingsAmount.toFixed(2));
+                coinHoldingsText = document.createTextNode(currency + '$' + coinHoldingsAmount.toFixed(numberOfDecimalPlaces));
             }
             coinHoldingsElement.appendChild(coinHoldingsText);
 
@@ -91,7 +92,7 @@ function updateCoin(currency, coin , coinAmount, alertCoin){
                 document.getElementById("crypto-total").style.display = 'flex';
                 // Set the portfolio amount text
                 let portfolioTotalElement = document.getElementById("crypto-amount-text");
-                portfolioTotalElement.innerHTML = totalAmountHolding.toFixed(2);
+                portfolioTotalElement.innerHTML = totalAmountHolding.toFixed(numberOfDecimalPlaces);
                 // Work out the percentage change
                 let totalAmountPercent = (totalAmountHolding - totalPrevAmountHolding)/totalPrevAmountHolding;
                 totalAmountPercent *= 100;

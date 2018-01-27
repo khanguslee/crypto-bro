@@ -50,17 +50,9 @@ function displayCurrencyOption() {
                             "PHP", "PKR", "PLN", "RUB", "SEK", 
                             "SGD", "THB", "TRY", "TWD", "ZAR"];
     // Display user selected currency
-    var currencyOption = "";
     chrome.storage.sync.get({"options": {"currency": "USD"}}, (result) => {
         let storedCurrency = result.options.currency;
-        for (var index in currencyList) {
-            if (currencyList[index] == storedCurrency) {
-                currencyOption += "<option selected='selected'>" + currencyList[index] + "</option>";
-            } else {
-                currencyOption += "<option>" + currencyList[index] + "</option>";
-            }
-        }
-        selectCurrencyElement.innerHTML = currencyOption;
+        selectCurrencyElement.innerHTML = generateSelectOptionsHTML(currencyList, storedCurrency);
     });
 }
 
@@ -80,19 +72,23 @@ function displayPercentChangeOption() {
     // Display the list of percent change times that the user can set
     let selectPercentChangeElement = document.getElementById("percent-change-option-list");
     selectPercentChangeElement.addEventListener("change", changePercentChange);
-    var percentChangeOption = "";
     const percentChangeList = ["1 Hour", "24 Hour", "7 Days"];
     chrome.storage.sync.get({"options": {"percentChange": "24 Hour"}}, (result) => {
         let storedPercentChange = result.options.percentChange;
-        for (var index in percentChangeList) {
-            if (percentChangeList[index] == storedPercentChange) {
-                percentChangeOption += "<option selected='selected'>" + percentChangeList[index] + "</option>";
-            } else {
-                percentChangeOption += "<option>" + percentChangeList[index] + "</option>";
-            }
-        }
-        selectPercentChangeElement.innerHTML = percentChangeOption;
+        selectPercentChangeElement.innerHTML = generateSelectOptionsHTML(percentChangeList, storedPercentChange);
     });
+}
+
+function generateSelectOptionsHTML(inputList, storedItem) {
+    let optionHTML = '';
+    for (var index in inputList) {
+        if (inputList[index] == storedItem) {
+            optionHTML += "<option selected='selected'>" + inputList[index] + "</option>";
+        } else {
+            optionHTML += "<option>" + inputList[index] + "</option>";
+        }
+    }
+    return optionHTML;
 }
 
 function changePercentChange(selectedPercentChange) {

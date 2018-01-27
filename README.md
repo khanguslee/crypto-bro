@@ -19,29 +19,13 @@ To load the application, type in `chrome://extensions/` into the browser and che
 
 ## To Do
 ### Functionality
-- [x] Option to show/hide other cryptocurrencys
-- [x] Input the amount of cryptocurrencys you own
-- [x] Alert system
-    - [x] Spike to learn how to make a modal
-    - [x] Alert when below price
-    - [x] Alert when above price
-- [x] Currency conversion
-- [x] Search bar in the options menu
 - [ ] Use jquery to cut down on code (Next major version)
 - [ ] Add option to display either 1 hour, 24hour or 7 day percent change of the price
 - [ ] Add option to display price change in percentages or in monetary amount (Maybe cycle this?)
-- [x] Displayed entries in same order each time
-- [x] Add link to the coin's coinmarketcap page
-- [x] Display prices in bitcoin
 - [ ] Edit quantity of a particular coin by clicking on the coin entry in the extension window
 - [ ] Add more currency types for alerting 
 - [ ] Let travisCI run tests on the code (Currently runs eslint on javascript code) 
-- [x] Notify user if alert has already been set
 
 ### Design
-- [x] Add green/red arrows to show if the coin increased/decreased in value
-- [x] Change percent change text to green/red if the coin increased/decreased in value
 - [ ] Night Mode
-- [x] Logo for app
-- [x] Create banners for chrome extension web store
 

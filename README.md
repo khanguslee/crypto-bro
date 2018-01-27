@@ -20,11 +20,12 @@ To load the application, type in `chrome://extensions/` into the browser and che
 ## To Do
 ### Functionality
 - [ ] Use jquery to cut down on code (Next major version)
-- [ ] Add option to display either 1 hour, 24hour or 7 day percent change of the price
+- [ ] Add option to display either 1 hour, 24 hour or 7 day percent change of the price
 - [ ] Add option to display price change in percentages or in monetary amount (Maybe cycle this?)
 - [ ] Edit quantity of a particular coin by clicking on the coin entry in the extension window
 - [ ] Add more currency types for alerting 
 - [ ] Let travisCI run tests on the code (Currently runs eslint on javascript code) 
+- [ ] Notify user that it is loading in data still
 
 ### Design
 - [ ] Night Mode

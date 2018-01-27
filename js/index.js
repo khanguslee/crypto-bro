@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initialiseApp();
 });
 
-function updateCoin(currency, coin , coinAmount, alertCoin){
+function updateCoin(currency, percentChange, coin , coinAmount, alertCoin){
     chrome.storage.local.get({'coins':[]}, (storedList) => {
         var coinList = storedList.coins;
         // Find the index of the coin within the stored coin list
@@ -45,10 +45,22 @@ function updateCoin(currency, coin , coinAmount, alertCoin){
             coinPriceElement.removeChild(coinPriceElement.childNodes[0]);
         }
         coinPriceElement.appendChild(coinPriceValue);
-
         // Percentage change of coin
         let coinPercentageElement = document.getElementById('percentage-' + coinID);
-        var coinPercentage = coinEntry.percent_change_24h;
+        var coinPercentage = '';
+        switch(percentChange) {
+            case "1 Hour":
+                coinPercentage = coinEntry.percent_change_1h;
+                break;
+            case "24 Hour":
+                coinPercentage = coinEntry.percent_change_24h;
+                break;
+            case "7 Days":
+                coinPercentage = coinEntry.percent_change_7d;
+                break;
+            default:
+                coinPercentage = coinEntry.percent_change_24h;
+        }
         coinPercentageElement.style.color = coinPercentage[0] === "-" ? "#e60000" : "#00e600";
         let coinPercentageText = document.createTextNode(coinPercentage + "%");
         // Add arrow icon
@@ -133,6 +145,11 @@ function initialiseApp() {
             const coinURLStart = 'https://coinmarketcap.com/currencies/';
             var selectedCurrency = storedOptions.currency;
             var coinSelectedFlag = false;
+
+            // If no currency selected, default to USD (This might occur on initial start up)
+            if (selectedCurrency == "") {
+                selectedCurrency = "USD";
+            }
             // Check currency symbol
             if (selectedCurrency == 'BTC') {
                 let bitcoinSymbol = document.createElement('i');
@@ -146,7 +163,7 @@ function initialiseApp() {
             }
 
             // Set percent change options
-            let selectedPercentChange = storedOptions.percentChange;
+            var selectedPercentChange = storedOptions.percentChange;
             let percentChangeText = document.getElementById('crypto-total-percent-change');
             switch(selectedPercentChange) {
                 case "1 Hour":
@@ -244,9 +261,9 @@ function initialiseApp() {
                 
                 /* Update the prices and details for each coin */
                 if ('value' in coinList[coin] & coinList[coin] != 0) {
-                    updateCoin(selectedCurrency, coin, parseFloat(coinList[coin].value), alertCoin);
+                    updateCoin(selectedCurrency, selectedPercentChange, coin, parseFloat(coinList[coin].value), alertCoin);
                 } else {
-                    updateCoin(selectedCurrency, coin, 0, alertCoin);
+                    updateCoin(selectedCurrency, selectedPercentChange, coin, 0, alertCoin);
                 }
                 cryptoEntry.appendChild(cryptoSecondaryDiv);
                 cryptoDiv.appendChild(cryptoEntry);

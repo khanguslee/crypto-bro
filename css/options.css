@@ -33,18 +33,24 @@ body {
     width: 100%;
 }
 
-#currency-header {
+.option-header {
     display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#select-currency-option {
     padding-top: 10px;
 }
 
-#currency-header h1{
+#select-currency-option h1{
     flex: 1;
     margin: 0;
 }
 
-#currency-option-list {
+#select-percent-change-option h1 {
     flex: 1;
+    margin: 0;
 }
 
 #coin-option-container #coin-option-list {

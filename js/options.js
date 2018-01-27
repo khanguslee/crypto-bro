@@ -79,10 +79,14 @@ function displayPercentChangeOption() {
     });
 }
 
-function generateSelectOptionsHTML(inputList, storedItem) {
+function generateSelectOptionsHTML(inputList, selectedItem) {
+    /*
+        Will generate the HTML to add items into a select element.
+        Function will need a list to go through, and the item that you want to display (selected) by default
+    */
     let optionHTML = '';
     for (var index in inputList) {
-        if (inputList[index] == storedItem) {
+        if (inputList[index] == selectedItem) {
             optionHTML += "<option selected='selected'>" + inputList[index] + "</option>";
         } else {
             optionHTML += "<option>" + inputList[index] + "</option>";

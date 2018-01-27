@@ -125,9 +125,11 @@ function initialiseApp() {
         var coinList = storedCoinList.coinOptions;
         var cryptoDiv = document.getElementById('crypto-container');
 
-        // Get currency to display
+        // Get user stored options
         chrome.storage.sync.get({"options" : {"currency": "USD", "percentChange": "24 Hour"}}, (result) => {
             let storedOptions = result.options;
+
+            // Set Currency options 
             const coinURLStart = 'https://coinmarketcap.com/currencies/';
             var selectedCurrency = storedOptions.currency;
             var coinSelectedFlag = false;
@@ -141,6 +143,23 @@ function initialiseApp() {
             } else {
                 let portfolioCurrency = document.getElementById('crypto-currency');
                 portfolioCurrency.innerHTML = selectedCurrency + '$';
+            }
+
+            // Set percent change options
+            let selectedPercentChange = storedOptions.percentChange;
+            let percentChangeText = document.getElementById('crypto-total-percent-change');
+            switch(selectedPercentChange) {
+                case "1 Hour":
+                    percentChangeText.innerHTML = '1hr % Change';
+                    break;
+                case "24 Hour":
+                    percentChangeText.innerHTML = '24hr % Change';
+                    break;
+                case "7 Days":
+                    percentChangeText.innerHTML = '7 Day % Change';
+                    break;
+                default:
+                    percentChangeText.innerHTML = '24hr % Change';
             }
             
             for (var coin in coinList) {

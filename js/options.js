@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     setUpWalletDetails();
     displayCurrencyOption();
+    displayPercentChangeOption();
     displayAllCoins();
     enableSearchBar();
 });
@@ -69,6 +70,29 @@ function changeCurrency(selectedCurrency) {
         let backgroundPage = chrome.extension.getBackgroundPage();
         backgroundPage.updateCoinList();
     });
+}
+
+function displayPercentChangeOption() {
+    // Display the list of percent change times that the user can set
+    let selectPercentChangeElement = document.getElementById("percent-change-option-list");
+    selectPercentChangeElement.addEventListener("change", changePercentChange);
+    var percentChangeOption = "";
+    const percentChangeList = ["1 Hour", "24 Hour", "7 Days"];
+    for (var index in percentChangeList) {
+        percentChangeOption += "<option>" + percentChangeList[index] + "</option>";
+    }
+    selectPercentChangeElement.innerHTML = percentChangeOption;
+}
+
+function changePercentChange(selectedPercentChange) {
+    // Change the selected percent change
+    console.log(selectedPercentChange.target.value);
+    /*
+    chrome.storage.sync.set({"percent-change": selectedCurrency.target.value}, () => {
+        let backgroundPage = chrome.extension.getBackgroundPage();
+        backgroundPage.updateCoinList();
+    });
+    */
 }
 
 function syncCheckboxes() {

@@ -52,9 +52,9 @@ function displayCurrencyOption() {
     // Display user selected currency
     var currencyOption = "";
     chrome.storage.sync.get({"currency": "USD"}, (result) => {
-        var defaultCurrency = result.currency;
+        let storedCurrency = result.currency;
         for (var index in currencyList) {
-            if (currencyList[index] == defaultCurrency) {
+            if (currencyList[index] == storedCurrency) {
                 currencyOption += "<option selected='selected'>" + currencyList[index] + "</option>";
             } else {
                 currencyOption += "<option>" + currencyList[index] + "</option>";
@@ -78,21 +78,23 @@ function displayPercentChangeOption() {
     selectPercentChangeElement.addEventListener("change", changePercentChange);
     var percentChangeOption = "";
     const percentChangeList = ["1 Hour", "24 Hour", "7 Days"];
-    for (var index in percentChangeList) {
-        percentChangeOption += "<option>" + percentChangeList[index] + "</option>";
-    }
-    selectPercentChangeElement.innerHTML = percentChangeOption;
+    chrome.storage.sync.get({"percentChange": "24 Hour"}, (result) => {
+        let storedPercentChange = result.percentChange;
+        for (var index in percentChangeList) {
+            if (percentChangeList[index] == storedPercentChange) {
+                percentChangeOption += "<option selected='selected'>" + percentChangeList[index] + "</option>";
+            } else {
+                percentChangeOption += "<option>" + percentChangeList[index] + "</option>";
+            }
+        }
+        selectPercentChangeElement.innerHTML = percentChangeOption;
+    });
 }
 
 function changePercentChange(selectedPercentChange) {
     // Change the selected percent change
     console.log(selectedPercentChange.target.value);
-    /*
-    chrome.storage.sync.set({"percent-change": selectedCurrency.target.value}, () => {
-        let backgroundPage = chrome.extension.getBackgroundPage();
-        backgroundPage.updateCoinList();
-    });
-    */
+    chrome.storage.sync.set({"percentChange": selectedPercentChange.target.value});
 }
 
 function syncCheckboxes() {

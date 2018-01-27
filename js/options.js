@@ -51,8 +51,8 @@ function displayCurrencyOption() {
                             "SGD", "THB", "TRY", "TWD", "ZAR"];
     // Display user selected currency
     var currencyOption = "";
-    chrome.storage.sync.get({"currency": "USD"}, (result) => {
-        let storedCurrency = result.currency;
+    chrome.storage.sync.get({"options": {"currency": "USD"}}, (result) => {
+        let storedCurrency = result.options.currency;
         for (var index in currencyList) {
             if (currencyList[index] == storedCurrency) {
                 currencyOption += "<option selected='selected'>" + currencyList[index] + "</option>";
@@ -66,9 +66,13 @@ function displayCurrencyOption() {
 
 function changeCurrency(selectedCurrency) {
     // Change the selected displayed currency
-    chrome.storage.sync.set({"currency": selectedCurrency.target.value}, () => {
-        let backgroundPage = chrome.extension.getBackgroundPage();
-        backgroundPage.updateCoinList();
+    chrome.storage.sync.get({"options": {"percentChange": '', "currency": ''}}, (result) => {
+        let storedOptions = result.options;
+        storedOptions.currency = selectedCurrency.target.value;
+        chrome.storage.sync.set({"options": storedOptions}, () => {
+            let backgroundPage = chrome.extension.getBackgroundPage();
+            backgroundPage.updateCoinList();
+        });
     });
 }
 
@@ -78,8 +82,8 @@ function displayPercentChangeOption() {
     selectPercentChangeElement.addEventListener("change", changePercentChange);
     var percentChangeOption = "";
     const percentChangeList = ["1 Hour", "24 Hour", "7 Days"];
-    chrome.storage.sync.get({"percentChange": "24 Hour"}, (result) => {
-        let storedPercentChange = result.percentChange;
+    chrome.storage.sync.get({"options": {"percentChange": "24 Hour"}}, (result) => {
+        let storedPercentChange = result.options.percentChange;
         for (var index in percentChangeList) {
             if (percentChangeList[index] == storedPercentChange) {
                 percentChangeOption += "<option selected='selected'>" + percentChangeList[index] + "</option>";
@@ -93,8 +97,11 @@ function displayPercentChangeOption() {
 
 function changePercentChange(selectedPercentChange) {
     // Change the selected percent change
-    console.log(selectedPercentChange.target.value);
-    chrome.storage.sync.set({"percentChange": selectedPercentChange.target.value});
+    chrome.storage.sync.get({"options": {"percentChange": '', "currency": ''}}, (result) => {
+        let storedOptions = result.options;
+        storedOptions.percentChange = selectedPercentChange.target.value;
+        chrome.storage.sync.set({"options": storedOptions});
+    });
 }
 
 function syncCheckboxes() {

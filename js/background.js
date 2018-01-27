@@ -2,8 +2,9 @@ const cmcBaseUrl = 'https://api.coinmarketcap.com/v1';
 
 function updateCoinList() {
     // Get currency to display
-    chrome.storage.sync.get({"currency": "USD"}, (storedCurrency) => {
-        var currency = storedCurrency.currency;
+    chrome.storage.sync.get({"options": {"currency": "USD", "percentChange": "24 Hour"}}, (result) => {
+        let storedOptions = result.options;
+        var currency = storedOptions.currency;
         // Set URL to get information from
         var coinURL = cmcBaseUrl + '/ticker/?limit=0';
         if (currency != "USD") {

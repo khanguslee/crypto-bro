@@ -126,9 +126,10 @@ function initialiseApp() {
         var cryptoDiv = document.getElementById('crypto-container');
 
         // Get currency to display
-        chrome.storage.sync.get({"currency": "USD"}, (storedCurrency) => {
+        chrome.storage.sync.get({"options" : {"currency": "USD", "percentChange": "24 Hour"}}, (result) => {
+            let storedOptions = result.options;
             const coinURLStart = 'https://coinmarketcap.com/currencies/';
-            var selectedCurrency = storedCurrency.currency;
+            var selectedCurrency = storedOptions.currency;
             var coinSelectedFlag = false;
             // Check currency symbol
             if (selectedCurrency == 'BTC') {

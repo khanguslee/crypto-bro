@@ -47,6 +47,12 @@ body {
     flex: 1;
 }
 
+#coin-option-list {
+    overflow-y: scroll;
+    min-width: 500px;
+    max-height: 500px;
+}
+
 #coin-option-container #coin-option-list {
     list-style-type: none;
     padding-left: 0;    

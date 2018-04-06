@@ -137,6 +137,9 @@ function initialiseApp() {
         var coinList = storedCoinList.coinOptions;
         var cryptoDiv = document.getElementById('crypto-container');
 
+        let amountChangeLabelText = document.getElementById('crypto-amount-change-label');
+        amountChangeLabelText.addEventListener('click', togglePercentChange);
+
         // Get user stored options
         chrome.storage.sync.get({"options" : {"currency": "USD", "percentChange": "24 Hour"}}, (result) => {
             let storedOptions = result.options;
@@ -296,4 +299,10 @@ function openOptionPage() {
     } else {
         window.open(chrome.runtime.getURL('html/options.html'));
     }
+}
+
+function togglePercentChange() {
+    chrome.storage.sync.get({"options": {"percentChange": "24 Hour", "currency": "USD"}}, (result) => {
+        let storedOptions = result.options;
+    });
 }
